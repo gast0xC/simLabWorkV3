@@ -1,128 +1,134 @@
-    <?php
+<?php
 
-    namespace backend\mvc\user;
+namespace backend\mvc\user;
 
-    use \backend\library\Controller;
-    use \backend\library\RequestOperation;
-    use \backend\library\RequestResult;
+use \backend\library\Controller;
+use \backend\library\RequestOperation;
+use \backend\library\RequestResult;
 
-    use \backend\mvc\user\UserModel;
-    use \Exception;
+use \backend\mvc\user\UserModel;
+use \Exception;
 
-    class UserController extends Controller
+class UserController extends Controller
+{
+    function __construct()
     {
-        function __construct()
-        {
-            
-        }
+        
+    }
 
-        function register()
-        {
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                // Display the registration form
-                include(__DIR__ . '/views/register.php');
+    function register()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            // Display the registration form
+            include(__DIR__ . '/views/register.php');
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                // Perform validation on the request data
+                $username = trim(@$_REQUEST["name"]);
+                $password = @$_REQUEST["password"];
+                $role = @$_REQUEST["role"];
+                $email = @$_REQUEST["email"];
+                $telephone = @$_REQUEST["telephone"];
+                $money = @$_REQUEST["money"];
 
-            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Process the registration form submission
+                if (empty($username) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
+                    throw new Exception("Username, password, email, phone number and money are all required.");
+                }
 
-                try {
-                    // Perform validation on the request data
-                    $username = trim(@$_REQUEST["name"]);
-                    $password = @$_REQUEST["password"];
-                    $role = @$_REQUEST["role"];
-                    $email = @$_REQUEST["email"];
-                    $telephone = @$_REQUEST["telephone"];
-                    $money = @$_REQUEST["money"];
+                if ($role !== 'admin' && $role !== 'client') {
+                    throw new Exception("Invalid role specified.");
+                }
 
-                    if (empty($username) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
-                        throw new Exception("Username, password, email, phone number and money are all required.");
-                    }
+                $userModel = new UserModel();
+                $userData = [
+                    "name" => $username,
+                    "password" => $password, // The UserModel will hash this password
+                    "role" => $role,
+                    "email" => $email,
+                    "telephone" => $telephone,
+                    "money" => $money,
+                ];
 
-                    if ($role !== 'admin' && $role !== 'client') {
-                        throw new Exception("Invalid role specified.");
-                    }
+                $result = $userModel->createUser($userData);
 
-                    $userModel = new UserModel();
-                    $userData = [
-                        "name" => $username,
-                        "password" => $password, // The UserModel  hashes this password
-                        "role" => $role,
-                        "email" => $email,
-                        "telephone" => $telephone,
-                        "money" => $money,
-                    ];
-
-                    $result = $userModel->createUser($userData);
-                    $result->toJsonEcho();
+                if (!headers_sent()) {
                     header('Location: /webapp/app.php?service=registerSuccess');
                     exit();
-
-                } catch (Exception $e) {
-                    RequestResult::requestERROR(RequestOperation::INSERT, $e->getMessage())->toJsonEcho();
+                } else {
+                    echo "Redirect failed. Headers already sent.";
                 }
+            } catch (Exception $e) {
+                RequestResult::requestERROR(RequestOperation::INSERT, $e->getMessage())->toJsonEcho();
             }
         }
+    }
 
-        function registerSuccess()
-        {
-            echo "Registration successful!";
-        }
+    function registerSuccess()
+    {
+        echo "Registration successful!";
+    }
 
 
-        function login() {
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                // Display the login form
-                include(__DIR__ . '/views/login.php');
-        
-            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Process the login form submission
-                $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
-                $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
-        
-                if (!$username || !$password) {
-                    // Handle error - username or password not provided
-                    echo "Username or Password not provided"; // Display error message
-                    return;
-                }
-        
-                $userModel = new UserModel(); 
-                $result = $userModel->authenticate($username, $password);
-        
-                if ($result->result === RequestOperation::SUCCESS) {
-                    // Authentication successful
-                    session_start();
-                    $_SESSION['user'] = $result->data; // Assuming getData returns user data
-                    $_SESSION['role'] = $result->data['role']; // Storing user role in session
-        
-                    //header("Location: defaultPage.php"); // Redirect to a default page
-                    exit();
-                } else {
-                    // Authentication failed
-                    echo "Invalid Username or Password"; // Display error message
-                }
-            }//$result->toJsonEcho();
-        }
-        function deleteUser($id)
-        {
-            $userModel = new UserModel();
-            $result = $userModel->deleteUser($id);
-            $result->toJsonEcho();
-        }
+    function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            // Display the login form
+            include(__DIR__ . '/views/login.php');
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 
-        function updateUserRole()
-        {
-            $id = @$_REQUEST["id"];
-            $newRole = @$_REQUEST["role"];
-            $userModel = new UserModel();
-
-            if ($newRole !== 'admin' && $newRole !== 'client') {
-                RequestResult::requestERROR(RequestOperation::UPDATE, "Invalid role specified.")->toJsonEcho();
+            if (!$username || !$password) {
+                echo "Username or Password not provided"; // Display error message
                 return;
             }
 
-            $result = $userModel->updateUserRole($id, $newRole);
-            $result->toJsonEcho();
+            $userModel = new UserModel(); 
+            $result = $userModel->authenticate($username, $password);
+
+            if ($result->result === RequestOperation::SUCCESS) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                // Regenerate session ID upon successful login
+                session_regenerate_id(true);
+
+                $_SESSION['user'] = $result->data['name']; // Store username in session
+                $_SESSION['role'] = $result->data['role']; // Store user role in session
+
+                if (!headers_sent()) {
+                    header("Location: /webapp/app.php?service=showAbout"); // Redirect to a default page
+                    exit();
+                } else {
+                    echo "Redirect failed. Headers already sent.";
+                }
+            } else {
+                echo "Invalid Username or Password"; // Display error message
+            }
+        }
+    }
+
+    function deleteUser($id)
+    {
+        $userModel = new UserModel();
+        $result = $userModel->deleteUser($id);
+        $result->toJsonEcho();
+    }
+
+    function updateUserRole()
+    {
+        $id = @$_REQUEST["id"];
+        $newRole = @$_REQUEST["role"];
+        $userModel = new UserModel();
+
+        if ($newRole !== 'admin' && $newRole !== 'client') {
+            RequestResult::requestERROR(RequestOperation::UPDATE, "Invalid role specified.")->toJsonEcho();
+            return;
         }
 
-        // Other methods to be add later, like views and stuff
+        $result = $userModel->updateUserRole($id, $newRole);
+        $result->toJsonEcho();
     }
+
+    // Other methods to be add later, like views and stuff
+}

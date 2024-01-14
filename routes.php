@@ -49,7 +49,6 @@ Route::route("registerSuccess", function() {
     (new backend\mvc\user\UserController())->registerSuccess();
 });
 
-
 Route::route("loginUser", function(){ //http://localhost/webapp/app.php?service=loginUser
     (new backend\mvc\user\UserController())->login();
 });
