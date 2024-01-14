@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f8ff; /* Light blue background for a fresher look */
+}
+
+.bar-button {
+  /*width: 5%; */
+  aspect-ratio: 1;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.top-nav {
+  display: flex; /* Corrected typo */
+  flex-direction: row;
+  background-color: #0088cc; /* Brighter blue for top navigation */
+  overflow: hidden;
+}
+
+.top-nav a {
+  float: left;
+  color: #ffffff; /* White text for better readability */
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.top-nav a:hover {
+  background-color: #ffdd55; /* Bright yellow for hover */
+  color: black;
+}
+
+.top-nav a.active {
+  background-color: #32cd32; /* Lively green for active link */
+  color: white;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.view-area {
+  all: initial;
+  background-color: #ffffff; /* White background for content area */
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+  flex-grow: 100;
+}
+
+.side-nav {
+  padding-top: 20px;
+  background-color: #ffa500; /* Warm orange for side navigation */
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+  width: 0%;
+  overflow: auto;
+}
+
+.side-nav-visible {
+  width: 200px;
+}
+
+.side-nav a {
+  margin: 10px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #4b4b4b; /* Dark grey for readability */
+  display: block;
+  transition: 0.3s;
+}
+
+.side-nav a span {
+  margin-right: 10px;
+}
+
+.side-nav a:hover {
+  color: #f1f1f1;
+}
+
+.side-nav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.side-nav a.active {
+  background-color: #32cd32; /* Consistent with the top-nav active color */
+  color: white;
+}

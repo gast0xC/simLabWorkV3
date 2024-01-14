@@ -1,0 +1,30 @@
+{
+    "name": "jrosas/webapp",
+    "description": "webapp project",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Joao Rosas",
+            "email": "jrosas@uninova.pt"
+        }
+    ],
+    "autoload": {
+        "files": [    
+                      "backend/library/PDOConnection.php",
+                      "backend/library/Controller.php",
+                      "backend/library/Model.php",
+                      "backend/library/RequestResult.php",
+                      "backend/library/Route.php",
+
+                      "backend/mvc/layouts/LayoutController.php",
+                      "backend/mvc/person/PersonController.php",
+                      "backend/mvc/person/PersonModel.php",
+
+                      "backend/mvc/user/UserController.php",
+                      "backend/mvc/user/UserModel.php"
+                 ]
+    },
+    "require": {
+        
+    }
+}
