@@ -3,6 +3,8 @@ use backend\library\Route;
 
 
 
+// ------------------------------------------- People -----------------------------------------
+
 
 Route::route("selectAllPeople", function(){  //http://localhost/webapp/app.php?service=selectAllPeople
     (new backend\mvc\Person\PersonController())->selectAll();    
@@ -11,8 +13,6 @@ Route::route("selectAllPeople", function(){  //http://localhost/webapp/app.php?s
 Route::route("showPeopleAsTable", function(){  //http://localhost/webapp/app.php?service=showPeopleAsTable
     (new backend\mvc\Person\PersonController())->showPeopleAsTable();
 });
-
-
 
 Route::route("showPersonForm", function(){
     (new backend\mvc\Person\PersonController())->showPersonForm( @$_REQUEST["MODE"], @$_REQUEST["id"]);  
@@ -38,19 +38,8 @@ Route::route("deletePerson", function(){
 });
 
 
+// ------------------------------------------- User -----------------------------------------
 
-
-Route::route("showAbout", function(){  //http://localhost/webapp/app.php?service=showAbout
-    (new backend\mvc\layouts\MyLayoutController())->showAboutUs();  
-});
-
-Route::route("showContact", function(){  //http://localhost/webapp/app.php?service=showAbout
-    (new backend\mvc\layouts\MyLayoutController())->showContactUs();  
-});
-
-Route::route("defaultPage", function(){  //http://localhost/webapp/app.php?service=showAbout
-    (new backend\mvc\layouts\MyLayoutController())->showDefaultPage();  
-});
 
 Route::route("registerUser", function(){ //http://localhost/webapp/app.php?service=registerUser
     (new backend\mvc\user\UserController())->register();
@@ -72,3 +61,21 @@ Route::route("deleteUser", function(){
 Route::route("updateUser", function(){
     (new backend\mvc\user\UserController())->updateUserRole();
 });
+
+
+
+// ------------------------------------------- Extras -----------------------------------------
+
+
+Route::route("showAbout", function(){  //http://localhost/webapp/app.php?service=showAbout
+    (new backend\mvc\layouts\MyLayoutController())->showAboutUs();  
+});
+
+Route::route("showContact", function(){  //http://localhost/webapp/app.php?service=showAbout
+    (new backend\mvc\layouts\MyLayoutController())->showContactUs();  
+});
+
+Route::route("defaultPage", function(){  //http://localhost/webapp/app.php?service=showAbout
+    (new backend\mvc\layouts\MyLayoutController())->showDefaultPage();  
+});
+

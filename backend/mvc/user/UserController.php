@@ -88,10 +88,11 @@ class UserController extends Controller
             $userModel = new UserModel();
             $result = $userModel->authenticate($username, $password);
     
-            if ($result->getStatus() === RequestOperation::SUCCESS) {
+            if ($result->result === RequestOperation::SUCCESS) {
                 // Authentication successful
                 session_start();
-                $_SESSION['user'] = $result->getData(); // Assuming getData returns user data
+                $_SESSION['user'] = $result->data; // Assuming getData returns user data
+                $_SESSION['role'] = $result->data['role']; // Storing user role in session
     
                 //header("Location: defaultPage.php"); // Redirect to a default page
                 exit();
