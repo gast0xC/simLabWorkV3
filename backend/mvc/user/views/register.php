@@ -9,6 +9,7 @@
 <body>
     <div class="register-container">
          <form action="/webapp/app.php?service=registerUser" method="post"> 
+        <!-- <form action="/user/register" method="post"> -->
             <h2>Register</h2>
 
             <label for="name">Username:</label>
@@ -23,13 +24,13 @@
                 <option value="admin">Admin</option>
             </select>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="mail">Email:</label>
+            <input type="mail" id="mail" name="mail" required>
 
             <label for="telephone">Phone Number:</label>
             <input type="telephone" id="telephone" name="telephone" required>
 
-            <label for="money">Money:</label>
+            <label for="money">money:</label>
             <input type="money" id="money" name="money" required>
 
             <button type="submit">Register</button>

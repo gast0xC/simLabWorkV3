@@ -1,8 +1,3 @@
-<?php 
-require_once 'backend/library/auth_aux.php';
-checkUserRole('admin');
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 

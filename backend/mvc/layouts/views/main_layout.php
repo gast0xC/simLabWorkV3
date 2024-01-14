@@ -98,6 +98,9 @@
             case "signIn":
                 viewAreaElement.setAttribute("data", "./app.php?service=registerUser");
                 break;
+            case "showServices":
+                viewAreaElement.setAttribute("data", "./app.php?service=showServices");
+                break;
             case "home":
                 viewAreaElement.setAttribute("data", "./app.php?service=defaultPage");
                 break;

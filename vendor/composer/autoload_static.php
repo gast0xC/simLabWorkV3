@@ -17,6 +17,8 @@ class ComposerStaticInit4f19f7e7c996704ad20ef6e4d2613282
         '530afef1fdcd1a30545343db87fb6e43' => __DIR__ . '/../..' . '/backend/mvc/person/PersonModel.php',
         '35ec9583c42c9af7a90c3e02b19e2fa9' => __DIR__ . '/../..' . '/backend/mvc/user/UserController.php',
         'f0c5c1852d5bcb1afab3948fadc33633' => __DIR__ . '/../..' . '/backend/mvc/user/UserModel.php',
+        '74016d2d576ea23db07c649171e54b45' => __DIR__ . '/../..' . '/backend/mvc/service/ServiceController.php',
+        'ce1313f8d69251a6ef987298648aab9d' => __DIR__ . '/../..' . '/backend/mvc/service/ServiceModel.php',
     );
 
     public static $classMap = array (

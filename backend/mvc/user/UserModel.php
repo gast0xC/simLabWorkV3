@@ -14,7 +14,7 @@ class UserModel extends Model
     {
         try {
             $pdo = $this->getPdoConnection();
-            $query_string = "INSERT INTO user (name, password, role, email, telephone, money) VALUES (:name, :password, :role, :email, :telephone, :money)";
+            $query_string = "INSERT INTO user (name, password, role, mail, telephone, money) VALUES (:name, :password, :role, :mail, :telephone, :money)";
             $statement = $pdo->prepare($query_string);
 
             // Hash the password before saving
@@ -81,7 +81,7 @@ class UserModel extends Model
     {
         try {
             $pdo = $this->getPdoConnection();
-            $query_string = "SELECT id, name, password, role, email, telephone, money FROM user WHERE name = :name";
+            $query_string = "SELECT id, name, password, role, mail, telephone, money FROM user WHERE name = :name";
             $statement = $pdo->prepare($query_string);
 
             $statement->execute(['name' => $username]);

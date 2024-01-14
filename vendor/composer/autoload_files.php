@@ -16,4 +16,6 @@ return array(
     '530afef1fdcd1a30545343db87fb6e43' => $baseDir . '/backend/mvc/person/PersonModel.php',
     '35ec9583c42c9af7a90c3e02b19e2fa9' => $baseDir . '/backend/mvc/user/UserController.php',
     'f0c5c1852d5bcb1afab3948fadc33633' => $baseDir . '/backend/mvc/user/UserModel.php',
+    '74016d2d576ea23db07c649171e54b45' => $baseDir . '/backend/mvc/service/ServiceController.php',
+    'ce1313f8d69251a6ef987298648aab9d' => $baseDir . '/backend/mvc/service/ServiceModel.php',
 );

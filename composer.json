@@ -21,7 +21,11 @@
                       "backend/mvc/person/PersonModel.php",
 
                       "backend/mvc/user/UserController.php",
-                      "backend/mvc/user/UserModel.php"
+                      "backend/mvc/user/UserModel.php",
+
+                      
+                      "backend/mvc/service/ServiceController.php",
+                      "backend/mvc/service/ServiceModel.php"
                  ]
     },
     "require": {
