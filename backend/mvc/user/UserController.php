@@ -93,8 +93,13 @@ class UserController extends Controller
                 // Regenerate session ID upon successful login
                 session_regenerate_id(true);
 
-                $_SESSION['user'] = $result->data['name']; // Store username in session
+                 // Store username and role in separate session variables
+                $_SESSION['username'] = $result->data['name']; // Store username in session
                 $_SESSION['role'] = $result->data['role']; // Store user role in session
+
+                // Debugging: Output the session values
+                var_dump($_SESSION);
+                exit;
 
                 if (!headers_sent()) {
                     header("Location: /webapp/app.php?service=showAbout"); // Redirect to a default page
