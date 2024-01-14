@@ -1,4 +1,4 @@
-// backend/helpers/auth_helpers.php
+<?php
 
 function checkUserRole($requiredRole) {
     session_start();

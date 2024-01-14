@@ -30,11 +30,11 @@ class UserController extends Controller
                 $username = trim(@$_REQUEST["name"]);
                 $password = @$_REQUEST["password"];
                 $role = @$_REQUEST["role"];
-                $mail = @$_REQUEST["mail"];
+                $email = @$_REQUEST["email"];
                 $telephone = @$_REQUEST["telephone"];
                 $money = @$_REQUEST["money"];
 
-                if (empty($username) || empty($password) || empty($mail) || empty($telephone) || empty($money)) {
+                if (empty($username) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
                     throw new Exception("Username, password, email, phone number and money are all required.");
                 }
 
@@ -47,13 +47,13 @@ class UserController extends Controller
                     "name" => $username,
                     "password" => $password, // The UserModel  hashes this password
                     "role" => $role,
-                    "mail" => $mail,
+                    "email" => $email,
                     "telephone" => $telephone,
                     "money" => $money,
                 ];
 
                 $result = $userModel->createUser($userData);
-                //$result->toJsonEcho();
+                $result->toJsonEcho();
                 header('Location: /webapp/app.php?service=registerSuccess');
                 exit();
 
@@ -85,7 +85,7 @@ class UserController extends Controller
                 return;
             }
     
-            $userModel = new UserModel();
+            $userModel = new UserModel(); 
             $result = $userModel->authenticate($username, $password);
     
             if ($result->result === RequestOperation::SUCCESS) {
