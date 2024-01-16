@@ -1,0 +1,69 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e7eff6; /* Um azul claro suave */
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilização do Cabeçalho */
+header {
+    background-color: #005f73; /* Um azul escuro */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em; /* Aumenta o tamanho da fonte para o título */
+}
+
+/* Estilização da seção de Informação de Contato */
+.contact-info {
+    background-color: #f0f8ff; /* Um azul muito claro */
+    padding: 20px;
+    margin: 20px;
+}
+
+.contact-info h2 {
+    color: #00796b; /* Um tom de verde */
+}
+
+/* Estilos para links */
+a {
+    color: #482fd3; /* Um vermelho vibrante para destacar os links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #9a0007; /* Uma cor mais escura no hover para interatividade */
+}
+
+/* Estilização do Rodapé */
+footer {
+    background-color: #263238; /* Cor de fundo escura */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+/* Animações e Transições */
+a, button {
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+    
+    .contact-info {
+        padding: 10px;
+        margin: 10px;
+    }
+}
