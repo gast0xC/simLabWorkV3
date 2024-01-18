@@ -30,11 +30,11 @@ class UserController extends Controller
                 $username = trim(@$_REQUEST["name"]);
                 $password = @$_REQUEST["password"];
                 $role = @$_REQUEST["role"];
-                $mail = @$_REQUEST["mail"];
+                $email = @$_REQUEST["email"];
                 $telephone = @$_REQUEST["telephone"];
                 $money = @$_REQUEST["money"];
 
-                if (empty($username) || empty($password) || empty($mail) || empty($telephone) || empty($money)) {
+                if (empty($username) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
                     throw new Exception("Username, password, email, phone number and money are all required.");
                 }
 
@@ -47,7 +47,7 @@ class UserController extends Controller
                     "name" => $username,
                     "password" => $password, // The UserModel  hashes this password
                     "role" => $role,
-                    "mail" => $mail,
+                    "email" => $email,
                     "telephone" => $telephone,
                     "money" => $money,
                 ];
@@ -88,10 +88,11 @@ class UserController extends Controller
             $userModel = new UserModel();
             $result = $userModel->authenticate($username, $password);
     
-            if ($result->getStatus() === RequestOperation::SUCCESS) {
+            if ($result->result === RequestOperation::SUCCESS) {
                 // Authentication successful
                 session_start();
-                $_SESSION['user'] = $result->getData(); // Assuming getData returns user data
+                $_SESSION['user'] = $result->data['user']; // Store user
+                $_SESSION['role'] = $result->data['role']; // Store user role
     
                 //header("Location: defaultPage.php"); // Redirect to a default page
                 exit();

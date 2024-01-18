@@ -24,8 +24,8 @@
                 <option value="admin">Admin</option>
             </select>
 
-            <label for="mail">Email:</label>
-            <input type="mail" id="mail" name="mail" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
             <label for="telephone">Phone Number:</label>
             <input type="telephone" id="telephone" name="telephone" required>

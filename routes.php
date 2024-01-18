@@ -3,6 +3,8 @@ use backend\library\Route;
 
 
 
+// ---------------------------------- Person -------------------------------------------
+
 
 Route::route("selectAllPeople", function(){  //http://localhost/webapp/app.php?service=selectAllPeople
     (new backend\mvc\Person\PersonController())->selectAll();    
@@ -39,6 +41,8 @@ Route::route("deletePerson", function(){
 
 
 
+// ---------------------------------- Extras -------------------------------------------
+
 
 Route::route("showAbout", function(){  //http://localhost/webapp/app.php?service=showAbout
     (new backend\mvc\layouts\MyLayoutController())->showAboutUs();  
@@ -51,6 +55,11 @@ Route::route("showContact", function(){  //http://localhost/webapp/app.php?servi
 Route::route("defaultPage", function(){  //http://localhost/webapp/app.php?service=showAbout
     (new backend\mvc\layouts\MyLayoutController())->showDefaultPage();  
 });
+
+
+
+// ---------------------------------- User -------------------------------------------
+
 
 Route::route("registerUser", function(){ //http://localhost/webapp/app.php?service=registerUser
     (new backend\mvc\user\UserController())->register();
@@ -72,7 +81,6 @@ Route::route("deleteUser", function(){
 Route::route("updateUser", function(){
     (new backend\mvc\user\UserController())->updateUserRole();
 });
-
 
 Route::route("showServices", function(){  //http://localhost/webapp/app.php?service=showServices
     (new backend\mvc\service\ServiceController())->showServices();
