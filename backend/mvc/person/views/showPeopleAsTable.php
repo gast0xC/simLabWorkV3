@@ -1,6 +1,6 @@
 <?php
 require_once 'backend/library/auth_aux.php';
-//checkUserRole('admin');
+checkUserRole('admin');
 ?>
 
 <!DOCTYPE html>

@@ -27,14 +27,14 @@ class UserController extends Controller
 
             try {
                 // Perform validation on the request data
-                $username = trim(@$_REQUEST["name"]);
+                $name = trim(@$_REQUEST["name"]);
                 $password = @$_REQUEST["password"];
                 $role = @$_REQUEST["role"];
                 $email = @$_REQUEST["email"];
                 $telephone = @$_REQUEST["telephone"];
                 $money = @$_REQUEST["money"];
 
-                if (empty($username) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
+                if (empty($name) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
                     throw new Exception("Username, password, email, phone number and money are all required.");
                 }
 
@@ -44,7 +44,7 @@ class UserController extends Controller
 
                 $userModel = new UserModel();
                 $userData = [
-                    "name" => $username,
+                    "name" => $name,
                     "password" => $password, // The UserModel  hashes this password
                     "role" => $role,
                     "email" => $email,
@@ -68,6 +68,11 @@ class UserController extends Controller
         echo "Registration successful!";
     }
 
+    function loginSuccess()
+    {
+        echo "Login successful!";
+    }
+
 
     function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -76,32 +81,37 @@ class UserController extends Controller
     
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process the login form submission
-            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+            $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
     
-            if (!$username || !$password) {
-                // Handle error - username or password not provided
-                echo "Username or Password not provided"; // Display error message
+            if (!$name || !$password) {
+                echo "Username or Password not provided";
                 return;
             }
     
             $userModel = new UserModel();
-            $result = $userModel->authenticate($username, $password);
+            $result = $userModel->authenticate($name, $password);
     
-            if ($result->result === RequestOperation::SUCCESS) {
-                // Authentication successful
-                session_start();
-                $_SESSION['user'] = $result->data['user']; // Store user
-                $_SESSION['role'] = $result->data['role']; // Store user role
-    
-                //header("Location: defaultPage.php"); // Redirect to a default page
+            if ($result->result === RequestOperation::SUCCESS->value) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                // Regenerate session ID upon successful login
+                session_regenerate_id(true);
+
+                $_SESSION['name'] = $result->data['name']; // Store username in session
+                $_SESSION['role'] = $result->data['role']; // Store user role in session
+
+                // Redirect to the successful login page
+                header("Location: /webapp/app.php?service=loginSuccess");
                 exit();
             } else {
-                // Authentication failed
                 echo "Invalid Username or Password"; // Display error message
             }
-        }//$result->toJsonEcho();
+        }
     }
+
     function deleteUser($id)
     {
         $userModel = new UserModel();

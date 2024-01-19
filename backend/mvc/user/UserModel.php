@@ -28,7 +28,7 @@ class UserModel extends Model
         }
     }
 
-    function selectUser($id): RequestResult
+    /*function selectUser($id): RequestResult
     {
         try {
             $pdo = $this->getPdoConnection();
@@ -42,7 +42,25 @@ class UserModel extends Model
         } catch (Exception $e) {
             return RequestResult::requestERROR(RequestOperation::SELECT, "error: " . $e->getMessage());
         }
+    }*/
+
+    function selectUser($id): RequestResult
+{
+    try {
+        $pdo = $this->getPdoConnection();
+        $query_string = "SELECT id, name, role FROM user WHERE id = :id";
+        $statement = $pdo->prepare($query_string);
+
+        $statement->execute(['id' => $id]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Pass the PDOStatement object, not the result array
+        return RequestResult::requestSUCCESS(RequestOperation::SELECT, $pdo, $statement, 'User selected successfully.');
+    } catch (Exception $e) {
+        return RequestResult::requestERROR(RequestOperation::SELECT, "error: " . $e->getMessage());
     }
+}
+
 
     function updateUserRole($id, $newRole): RequestResult
     {
@@ -77,26 +95,33 @@ class UserModel extends Model
         }
     }
 
-    function authenticate($username, $password): RequestResult
-    {
-        try {
-            $pdo = $this->getPdoConnection();
-            $query_string = "SELECT id, name, password, role, email, telephone, money FROM user WHERE name = :name";
-            $statement = $pdo->prepare($query_string);
+    function authenticate($name, $password): RequestResult
+{
+    try {
+        $pdo = $this->getPdoConnection();
+        $query_string = "SELECT id, name, password, role, email, telephone, money FROM user WHERE name = :name";
+        $statement = $pdo->prepare($query_string);
 
-            $statement->execute(['name' => $username]);
-            $user = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->execute(['name' => $name]);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                // Unset the password from the array before returning to ensure security
-                unset($user['password']);
-                return RequestResult::requestSUCCESS(RequestOperation::AUTHENTICATE, $pdo, $user, $query_string);
-            } else {
-                throw new Exception("Authentication failed: Invalid username or password.");
-            }
-        } catch (Exception $e) {
-            return RequestResult::requestERROR(RequestOperation::AUTHENTICATE, "error: " . $e->getMessage());
+         // Debug: Output the fetched user data and whether the password matches
+         //var_dump($user);
+         //var_dump(password_verify($password, $user['password']));
+         //exit;
+
+        if ($user && password_verify($password, $user['password'])) {
+            // Unset the password from the array before returning to ensure security
+            unset($user['password']);
+            // Pass the PDOStatement object, not the user array
+            return RequestResult::requestSUCCESS(RequestOperation::AUTHENTICATE, $pdo, $statement, 'Authentication successful.');
+        } else {
+            throw new Exception("Authentication failed: Invalid username or password.");
         }
+    } catch (Exception $e) {
+        return RequestResult::requestERROR(RequestOperation::AUTHENTICATE, "error: " . $e->getMessage());
     }
+}
+
 
 }
