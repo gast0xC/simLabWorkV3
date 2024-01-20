@@ -77,6 +77,10 @@ Route::route("loginSuccess", function() {
     (new backend\mvc\user\UserController())->loginSuccess();
 });
 
+Route::route("logout", function(){ //http://localhost/webapp/app.php?service=logout
+    (new backend\mvc\user\UserController())->logout();
+});
+
 Route::route("deleteUser", function(){
     (new backend\mvc\user\UserController())->deleteUser(@$_REQUEST['id']);
 });
@@ -91,4 +95,17 @@ Route::route("showServices", function(){  //http://localhost/webapp/app.php?serv
 
 Route::route("addService", function(){  //http://localhost/webapp/app.php?service=addService
     (new backend\mvc\service\ServiceController())->addService();
+});
+
+
+
+// ---------------------------------- Session tests -------------------------------------------
+
+
+Route::route("setSession", function(){  //http://localhost/webapp/app.php?service=setSession
+    (new backend\mvc\user\UserController())->setSession();
+});
+
+Route::route("readSession", function(){  //http://localhost/webapp/app.php?service=readSession
+    (new backend\mvc\user\UserController())->readSession();
 });

@@ -1,4 +1,14 @@
+<?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
 
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    //session_start(); // Start the session
+    //var_dump($_SESSION); // Debug: Remove this line after testing
+?>
 
 <!DOCTYPE html>
 <html>

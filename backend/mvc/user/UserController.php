@@ -70,8 +70,39 @@ class UserController extends Controller
 
     function loginSuccess()
     {
-        echo "Login successful!";
+        include(__DIR__ . '/views/loginSuccess.php');
+
     }
+
+    function logout() {
+        // Start the session
+        //session_start();
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        // Unset all session variables
+        session_unset();
+    
+        // Destroy the session
+        session_destroy();
+    
+        // If you want to kill the session cookie as well
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        
+        // Redirect to the home page or login page
+        sleep(1);
+        header("Location: /webapp/app.php?service=showLayout");
+        exit();
+    }
+    
 
 
     function login() {
@@ -95,7 +126,7 @@ class UserController extends Controller
             if ($result->result === RequestOperation::SUCCESS->value) {
                 if (session_status() == PHP_SESSION_NONE) {
                     session_start();
-                }
+                } 
 
                 // Regenerate session ID upon successful login
                 session_regenerate_id(true);
@@ -103,6 +134,10 @@ class UserController extends Controller
                 $_SESSION['name'] = $result->data['name']; // Store username in session
                 $_SESSION['role'] = $result->data['role']; // Store user role in session
 
+                // Debugging
+                //var_dump($_SESSION);
+
+                sleep(1);
                 // Redirect to the successful login page
                 header("Location: /webapp/app.php?service=loginSuccess");
                 exit();
@@ -134,5 +169,20 @@ class UserController extends Controller
         $result->toJsonEcho();
     }
 
-    // Other methods to be add later, like views and stuff
+
+    // Debug session issues
+    function setSession() {
+        session_start();
+        $_SESSION['test'] = 'Session is working';
+        echo 'Session variable is set.';
+    }
+    function readSession() {
+        session_start();
+        if (isset($_SESSION['test'])) {
+            echo $_SESSION['test'];
+        } else {
+            echo 'Session variable is not set.';
+        }
+    }
+
 }
