@@ -1,9 +1,8 @@
 body.error-page {
     font-family: 'Roboto', sans-serif;
-    background-image: linear-gradient(120deg, #009688, #4caf50, #ffeb3b, #009688); /* Gradiente com tons de verde do mar, verde da folhagem, e amarelo do sol */
+    background-image: linear-gradient(120deg, #005f6b, #008c8c, #00bfa5); /* Tons de azul e verde mais escuros */
     background-size: 300% 300%;
     animation: gradientShift 15s ease infinite, ripple 20s infinite linear;
-    color: white;
     text-align: center;
     height: 100vh;
     display: flex;
@@ -27,13 +26,17 @@ body.error-page {
 }
 
 .error-container h1 {
-    font-size: 5em; /* Aumentado de 3em para 4em */
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: .15em solid white;
-    animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
-    transition: transform 0.3s ease;
+    font-size: 5em;
+    background-image: linear-gradient(45deg, #ffffff, #ffd700); /* Gradiente de branco para dourado, para maior contraste */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbowTextAnimation 8s ease-in-out infinite, shake 0.5s infinite;
+}
+
+@keyframes rainbowTextAnimation {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 @keyframes typing {
@@ -57,9 +60,14 @@ body.error-page {
 }
 
 .error-container p {
-    font-size: 2em; /* Aumentado de 1.5em para 1.75em */
-    animation: float 3s ease-in-out infinite;
-    transition: color 0.3s ease;
+    font-size: 2em;
+    color: #ffffff; /* Mudança para branco para melhor legibilidade */
+    animation: float 3s ease-in-out infinite, pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
 }
 
 .error-container p:hover {
@@ -77,10 +85,10 @@ body.error-page {
     }
 
     .error-container h1 {
-        font-size: 3em; /* Aumentado para tamanhos de tela menores */
+        font-size: 3em; /* Ajustado para tamanhos de tela menores */
     }
 
     .error-container p {
-        font-size: 1.5em; /* Aumentado para tamanhos de tela menores */
+        font-size: 1.5em; /* Ajustado para tamanhos de tela menores */
     }
 }
