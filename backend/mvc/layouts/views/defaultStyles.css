@@ -14,7 +14,6 @@ body.error-page {
     transition: background-size 0.5s ease;
 }
 
-
 @keyframes gradientShift {
     0%, 100% { background-position: 0% 50%; }
     33% { background-position: 100% 50%; }
@@ -28,7 +27,7 @@ body.error-page {
 }
 
 .error-container h1 {
-    font-size: 3em;
+    font-size: 5em; /* Aumentado de 3em para 4em */
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -58,7 +57,7 @@ body.error-page {
 }
 
 .error-container p {
-    font-size: 1.5em;
+    font-size: 2em; /* Aumentado de 1.5em para 1.75em */
     animation: float 3s ease-in-out infinite;
     transition: color 0.3s ease;
 }
@@ -78,10 +77,10 @@ body.error-page {
     }
 
     .error-container h1 {
-        font-size: 2em;
+        font-size: 3em; /* Aumentado para tamanhos de tela menores */
     }
 
     .error-container p {
-        font-size: 1em;
+        font-size: 1.5em; /* Aumentado para tamanhos de tela menores */
     }
 }
