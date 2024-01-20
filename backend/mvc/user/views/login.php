@@ -8,16 +8,21 @@
         /* Add some basic styling */
         body {
             font-family: 'Arial', sans-serif;
-            background-image: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #f6d365, #fda085, #f6d365);
-            background-size: 300% 300%;
-            animation: colorsBackgroundChange 10s ease infinite;
-            color: #333;
+            background-image: linear-gradient(45deg, #0d47a1, #1b5e20, #b71c1c, #ff6f00);
+            background-size: 400% 400%;
+            animation: colorsBackgroundChange 15s ease infinite;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             padding: 0;
+            transition: background-color 0.5s;
+        }
+
+        body:hover {
+            background-color: #333; /* Escurece o fundo quando o mouse passa sobre a página */
         }
 
         @keyframes colorsBackgroundChange {
@@ -29,9 +34,10 @@
         .login-container {
             width: 300px;
             padding: 40px;
-            background-color: rgba(255, 255, 255, 0.85); /* Fundo translúcido para os elementos do formulário */
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo translúcido escuro para os elementos do formulário */
             border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para profundidade */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
+            backdrop-filter: blur(5px); /* Efeito de desfoque no fundo do container */
         }
 
         input[type="text"], input[type="password"] {
@@ -40,32 +46,35 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.7); /* Fundo semi-transparente para inputs */
+            transition: background-color 0.3s ease-in-out;
         }
 
         input[type="text"]:focus, input[type="password"]:focus {
-            transform: scale(1.05);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra ao focar */
+            background-color: rgba(255, 255, 255, 1); /* Muda o fundo para branco ao focar */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Sombra ao focar */
         }
 
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #1b5e20; /* Verde escuro para o botão de submissão */
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease-in-out;
         }
+
         input[type="submit"]:hover {
-        background-color: #45a049;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra ao passar o mouse */
+            transform: scale(1.05); /* Aumenta o tamanho do botão ao passar o mouse */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra mais intensa ao passar o mouse */
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            color: #aad; /* Cor clara para o texto do label */
         }
     </style>
 </head>
