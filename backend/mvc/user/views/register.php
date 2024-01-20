@@ -9,7 +9,6 @@
 <body>
     <div class="register-container">
          <form action="/webapp/app.php?service=registerUser" method="post"> 
-        <!-- <form action="/user/register" method="post"> -->
             <h2>Register</h2>
 
             <label for="name">Username:</label>
