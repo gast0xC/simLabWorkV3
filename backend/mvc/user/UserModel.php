@@ -44,22 +44,54 @@ class UserModel extends Model
         }
     }*/
 
-    function selectUser($id): RequestResult
-{
-    try {
-        $pdo = $this->getPdoConnection();
-        $query_string = "SELECT id, name, role FROM user WHERE id = :id";
-        $statement = $pdo->prepare($query_string);
+    /*function selectUser($id): RequestResult {
+        try {
+            $pdo = $this->getPdoConnection();
+            $query_string = "SELECT id, name, role FROM user WHERE id = :id";
+            $statement = $pdo->prepare($query_string);
 
-        $statement->execute(['id' => $id]);
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $statement->execute(['id' => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // Pass the PDOStatement object, not the result array
-        return RequestResult::requestSUCCESS(RequestOperation::SELECT, $pdo, $statement, 'User selected successfully.');
-    } catch (Exception $e) {
-        return RequestResult::requestERROR(RequestOperation::SELECT, "error: " . $e->getMessage());
+            // Pass the PDOStatement object, not the result array
+            return RequestResult::requestSUCCESS(RequestOperation::SELECT, $pdo, $statement, 'User selected successfully.');
+        } catch (Exception $e) {
+            return RequestResult::requestERROR(RequestOperation::SELECT, "error: " . $e->getMessage());
+        }
+    }*/
+
+    function selectUser($name): RequestResult {
+        try {
+            $pdo = $this->getPdoConnection();
+            $query_string = "SELECT id, name, role FROM user WHERE name = :name";
+            $statement = $pdo->prepare($query_string);
+    
+            $statement->execute(['name' => $name]);
+            $user = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            if ($user) {
+                // Here you're ensuring that the $statement has the user data
+                // Since your requestSUCCESS method uses fetchAll, you must provide it with a PDOStatement that has not been fetched yet
+                // One way to achieve this is to re-prepare and re-execute the statement
+                $statement = $pdo->prepare($query_string);
+                $statement->execute(['name' => $name]);
+    
+                // Now the $statement is fresh and has not been fetched, so it will work with your requestSUCCESS method
+                $result = RequestResult::requestSUCCESS(RequestOperation::SELECT, $pdo, $statement, 'User selected successfully.');
+                // Manually set the data since we've already fetched it
+                $result->data = $user;
+    
+                return $result;
+            } else {
+                // If no user was found, return an error or a different type of success message
+                return RequestResult::requestERROR(RequestOperation::SELECT, "No user found with that name.");
+            }
+        } catch (Exception $e) {
+            return RequestResult::requestERROR(RequestOperation::SELECT, "error: " . $e->getMessage());
+        }
     }
-}
+    
+    
 
 
     function updateUserRole($id, $newRole): RequestResult
