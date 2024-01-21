@@ -76,19 +76,15 @@ class UserController extends Controller
 
     function logout() {
         // Start the session
-        //session_start();
+        session_start();
 
-        //if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        //}
-    
         // Unset all session variables
         session_unset();
     
         // Destroy the session
         session_destroy();
     
-        // If you want to kill the session cookie as well
+        // To kill the session cookie as well
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
@@ -97,13 +93,12 @@ class UserController extends Controller
             );
         }
         
-        // Redirect to the home page or login page
+        // Redirect to the home page
         sleep(1);
         header("Location: /webapp/app.php?service=showLayout");
         exit();
     }
     
-
 
     function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -128,10 +123,11 @@ class UserController extends Controller
                 session_regenerate_id(true);
     
                 // Retrieve user data from the UserModel
-                $userData = $userModel->selectUser($name);
+                $userData = $userModel->selectUserByName($name);
     
                 if ($userData->result === RequestOperation::SUCCESS->value && $userData->data) {
                     // Assign the user data to session variables
+                    $_SESSION['id'] =   $userData->data['id'];
                     $_SESSION['name'] = $userData->data['name'];
                     $_SESSION['role'] = $userData->data['role'];
                 } else {
@@ -145,6 +141,48 @@ class UserController extends Controller
                 exit();
             } else {
                 echo "Invalid Username or Password"; // Display error message
+            }
+        }
+    }
+
+    function accessProfile () {
+        
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['id'])) {
+            include(__DIR__ . '/views/login.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+            include(__DIR__ . '/views/profile.php');
+
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel = new UserModel();
+
+            // Sanitize and validate input
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null; // Only hash if a new password is provided
+            $money = filter_input(INPUT_POST, 'money', FILTER_SANITIZE_STRING); // Adjust sanitization according to your needs
+
+            $updateData = [
+                'email' => $email,
+                'password' => $password, // Make sure to handle the case where password is not changed
+                'money' => $money,
+                // Add other fields as necessary
+            ];
+
+            $result = $userModel->updateUserById($_SESSION['id'], $updateData);
+
+            if ($result->result === RequestOperation::SUCCESS->value) {
+                // Redirect to a confirmation page or show a success message
+                header('Location: profile_updated_successfully.php');
+            } else {
+                // Handle errors, e.g., show an error message
+                echo "An error occurred: " . $result->msg;
             }
         }
     }
@@ -172,20 +210,5 @@ class UserController extends Controller
         $result->toJsonEcho();
     }
 
-
-    // Debug session issues
-    function setSession() {
-        session_start();
-        $_SESSION['test'] = 'Session is working';
-        echo 'Session variable is set.';
-    }
-    function readSession() {
-        session_start();
-        if (isset($_SESSION['test'])) {
-            echo $_SESSION['test'];
-        } else {
-            echo 'Session variable is not set.';
-        }
-    }
 
 }

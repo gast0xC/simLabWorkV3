@@ -89,6 +89,15 @@ Route::route("updateUser", function(){
     (new backend\mvc\user\UserController())->updateUserRole();
 });
 
+Route::route("profile", function(){  //http://localhost/webapp/app.php?service=profile
+    (new backend\mvc\user\UserController())->accessProfile();
+});
+
+
+
+// ---------------------------------- Services -------------------------------------------
+
+
 Route::route("showServices", function(){  //http://localhost/webapp/app.php?service=showServices
     (new backend\mvc\service\ServiceController())->showServices();
 });
@@ -98,14 +107,3 @@ Route::route("addService", function(){  //http://localhost/webapp/app.php?servic
 });
 
 
-
-// ---------------------------------- Session tests -------------------------------------------
-
-
-Route::route("setSession", function(){  //http://localhost/webapp/app.php?service=setSession
-    (new backend\mvc\user\UserController())->setSession();
-});
-
-Route::route("readSession", function(){  //http://localhost/webapp/app.php?service=readSession
-    (new backend\mvc\user\UserController())->readSession();
-});
