@@ -13,13 +13,8 @@
     <div class="register-container">
          <form action="/webapp/app.php?service=registerUser" method="post"> 
 
-        <!-- <form action="/user/register" method="post"> -->
             <h2>Register in Adrenaline Adventures</h2>
            
-
-       
-
-
             <div class="form-group">
                 <label for="name">Username:</label>
                 <input type="text" id="name" name="name" required>
@@ -38,9 +33,6 @@
                     <option value="admin">Admin</option>
                 </select>
             </div>
-
-            
-
 
             <div class ="form-group">
                 <label for="email">Email:</label>

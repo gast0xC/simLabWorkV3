@@ -65,13 +65,12 @@ class UserController extends Controller
 
     function registerSuccess()
     {
-        echo "Registration successful!";
+        include(__DIR__ . '/views/registerSuccess.php');
     }
 
     function loginSuccess()
     {
         include(__DIR__ . '/views/loginSuccess.php');
-
     }
 
     function logout() {

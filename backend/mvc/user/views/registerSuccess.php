@@ -12,12 +12,13 @@
     <!-- Add additional meta tags and CSS links here -->
 </head>
 <body>
-    <h1>Login Successful!</h1>
+    <h1>Register Successful!</h1>
     <p>Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?>!</p>
     <p>You will be redirected to your dashboard shortly.</p>
+    <p>Please login afterwards.</p>
     <script>
         setTimeout(function() {
-            window.location.href = '/webapp/app.php?service=showPeopleAsTable'; // Redirect to a test page -----> CHANGE !!!!
+            window.location.href = '/webapp/app.php?service=showLayout'; // Redirect to a test page -----> CHANGE !!!!
         }, 3000); // Redirect after 3 seconds
     </script>
 </body>
