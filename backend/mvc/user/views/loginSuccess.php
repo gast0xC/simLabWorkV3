@@ -1,16 +1,7 @@
 <?php
-
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
-    //if (session_status() == PHP_SESSION_NONE) {
+    if (session_status() == PHP_SESSION_NONE) {
         session_start();
-    //} else {
-      //  echo "SESSION ALREADY EXISTED !!";
-    //}
-    
-    //session_start(); // Start the session
-    var_dump($_SESSION); // Debug: Remove this line after testing
+    }
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +17,8 @@
     <p>You will be redirected to your dashboard shortly.</p>
     <script>
         setTimeout(function() {
-            window.location.href = '/webapp/app.php?service=showPeopleAsTable'; // Redirect to a test page
-        }, 9000); // Redirect after 9 seconds
+            window.location.href = '/webapp/app.php?service=showPeopleAsTable'; // Redirect to a test page -----> CHANGE !!!!
+        }, 3000); // Redirect after 2 seconds
     </script>
 </body>
 </html>
