@@ -78,9 +78,9 @@ class UserController extends Controller
         // Start the session
         //session_start();
 
-        if (session_status() == PHP_SESSION_NONE) {
+        //if (session_status() == PHP_SESSION_NONE) {
             session_start();
-        }
+        //}
     
         // Unset all session variables
         session_unset();
@@ -124,20 +124,22 @@ class UserController extends Controller
             $result = $userModel->authenticate($name, $password);
     
             if ($result->result === RequestOperation::SUCCESS->value) {
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_start();
-                } 
-
-                // Regenerate session ID upon successful login
+                session_start();
                 session_regenerate_id(true);
-
-                $_SESSION['name'] = $result->data['name']; // Store username in session
-                $_SESSION['role'] = $result->data['role']; // Store user role in session
-
-                // Debugging
-                //var_dump($_SESSION);
-
-                sleep(1);
+    
+                // Retrieve user data from the UserModel
+                $userData = $userModel->selectUser($name);
+    
+                if ($userData->result === RequestOperation::SUCCESS->value && $userData->data) {
+                    // Assign the user data to session variables
+                    $_SESSION['name'] = $userData->data['name'];
+                    $_SESSION['role'] = $userData->data['role'];
+                } else {
+                    var_dump($userData);
+                    echo "Failed to retrieve user data";
+                    return;
+                }
+    
                 // Redirect to the successful login page
                 header("Location: /webapp/app.php?service=loginSuccess");
                 exit();
@@ -146,6 +148,7 @@ class UserController extends Controller
             }
         }
     }
+    
 
     function deleteUser($id)
     {

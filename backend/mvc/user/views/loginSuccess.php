@@ -3,14 +3,14 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    if (session_status() == PHP_SESSION_NONE) {
+    //if (session_status() == PHP_SESSION_NONE) {
         session_start();
-    } else {
-        echo "SESSION ALREADY EXISTED !!";
-    }
+    //} else {
+      //  echo "SESSION ALREADY EXISTED !!";
+    //}
     
     //session_start(); // Start the session
-    //var_dump($_SESSION); // Debug: Remove this line after testing
+    var_dump($_SESSION); // Debug: Remove this line after testing
 ?>
 
 <!DOCTYPE html>
