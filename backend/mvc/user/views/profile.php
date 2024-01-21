@@ -14,14 +14,14 @@
         session_start();
     }
 
-    if (!isset($_SESSION['id'])) {
+    if (!isset($_SESSION['name'])) {
         // Redirect to login page if not logged in
         header('Location: login.php');
         exit();
     }
 
     $userModel = new UserModel();
-    $userData = $userModel->selectUserById($_SESSION['id']);
+    $userData = $userModel->selectUserByName($_SESSION['name']);
 
     if ($userData->result !== RequestOperation::SUCCESS->value) {
         // Handle the case where the user data couldn't be fetched
@@ -44,7 +44,7 @@
 <body>
 
 <h1>Edit Profile</h1>
-<form action="update_profile.php" method="post">
+<form action="/webapp/app.php?service=profile" method="post">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userInfo['email']); ?>" required>
 

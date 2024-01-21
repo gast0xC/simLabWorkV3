@@ -31,7 +31,7 @@ class UserModel extends Model
     function selectUserByName ($name): RequestResult {
         try {
             $pdo = $this->getPdoConnection();
-            $query_string = "SELECT id, name, role FROM user WHERE name = :name";
+            $query_string = "SELECT id, name, role, email, telephone, money FROM user WHERE name = :name";
             $statement = $pdo->prepare($query_string);
     
             $statement->execute(['name' => $name]);
