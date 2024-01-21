@@ -12,13 +12,19 @@
 <body>
     <div class="register-container">
          <form action="/webapp/app.php?service=registerUser" method="post"> 
+
         <!-- <form action="/user/register" method="post"> -->
             <h2>Register in Adrenaline Adventures</h2>
+           
+
+       
+
 
             <div class="form-group">
                 <label for="name">Username:</label>
                 <input type="text" id="name" name="name" required>
             </div>
+
 
             <div class="form-group">
                 <label for="password">Password:</label>
@@ -33,9 +39,12 @@
                 </select>
             </div>
 
+            
+
+
             <div class ="form-group">
-                <label for="mail">Email:</label>
-                <input type="mail" id="mail" name="mail" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
 
             <div class ="form-group">

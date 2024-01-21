@@ -1,4 +1,8 @@
-
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+       session_start();
+    }
+?>
 
 <!DOCTYPE html>
 <html>
@@ -80,10 +84,10 @@
 </head>
 <body>
     <div class="login-container">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="/webapp/app.php?service=loginUser" method="post">
             <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="name">Username:</label>
+                <input type="text" id="name" name="name" required>
             </div>
             <div>
                 <label for="password">Password:</label>

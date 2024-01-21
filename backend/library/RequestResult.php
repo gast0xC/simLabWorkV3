@@ -82,5 +82,3 @@ class RequestResult {
 }
 ob_end_flush();
 
-
-// RequestResult::requestGENERIC(RequestOperation::ROUTE, "SUCCESS", "Demo Request Result")->toJsonEcho();

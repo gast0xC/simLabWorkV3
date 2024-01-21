@@ -3,6 +3,8 @@ use backend\library\Route;
 
 
 
+// ---------------------------------- Person -------------------------------------------
+
 
 Route::route("selectAllPeople", function(){  //http://localhost/webapp/app.php?service=selectAllPeople
     (new backend\mvc\Person\PersonController())->selectAll();    
@@ -39,6 +41,8 @@ Route::route("deletePerson", function(){
 
 
 
+// ---------------------------------- Extras -------------------------------------------
+
 
 Route::route("showAbout", function(){  //http://localhost/webapp/app.php?service=showAbout
     (new backend\mvc\layouts\MyLayoutController())->showAboutUs();  
@@ -52,6 +56,11 @@ Route::route("defaultPage", function(){  //http://localhost/webapp/app.php?servi
     (new backend\mvc\layouts\MyLayoutController())->showDefaultPage();  
 });
 
+
+
+// ---------------------------------- User -------------------------------------------
+
+
 Route::route("registerUser", function(){ //http://localhost/webapp/app.php?service=registerUser
     (new backend\mvc\user\UserController())->register();
 });
@@ -60,9 +69,16 @@ Route::route("registerSuccess", function() {
     (new backend\mvc\user\UserController())->registerSuccess();
 });
 
-
 Route::route("loginUser", function(){ //http://localhost/webapp/app.php?service=loginUser
     (new backend\mvc\user\UserController())->login();
+});
+
+Route::route("loginSuccess", function() {
+    (new backend\mvc\user\UserController())->loginSuccess();
+});
+
+Route::route("logout", function(){ //http://localhost/webapp/app.php?service=logout
+    (new backend\mvc\user\UserController())->logout();
 });
 
 Route::route("deleteUser", function(){
@@ -73,6 +89,14 @@ Route::route("updateUser", function(){
     (new backend\mvc\user\UserController())->updateUserRole();
 });
 
+Route::route("profile", function(){  //http://localhost/webapp/app.php?service=profile
+    (new backend\mvc\user\UserController())->accessProfile();
+});
+
+
+
+// ---------------------------------- Services -------------------------------------------
+
 
 Route::route("showServices", function(){  //http://localhost/webapp/app.php?service=showServices
     (new backend\mvc\service\ServiceController())->showServices();
@@ -81,3 +105,5 @@ Route::route("showServices", function(){  //http://localhost/webapp/app.php?serv
 Route::route("addService", function(){  //http://localhost/webapp/app.php?service=addService
     (new backend\mvc\service\ServiceController())->addService();
 });
+
+
