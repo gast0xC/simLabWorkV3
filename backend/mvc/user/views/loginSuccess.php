@@ -18,8 +18,8 @@
     <p>You will be redirected to your dashboard shortly.</p>
     <script>
         setTimeout(function() {
-            window.location.href = '/webapp/app.php?service=showPeopleAsTable'; // Redirect to a test page -----> CHANGE !!!!
-        }, 7000); // Redirect after 3 seconds
+        window.location.href = '/webapp/app.php?service=defaultPage#?loginSuccess=true';
+    }, 4000);
     </script>
 </body>
 </html>

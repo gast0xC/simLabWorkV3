@@ -20,4 +20,8 @@ class MyLayoutController extends Controller
 function showDefaultPage() {
        include(__DIR__ . "/views/defaultPage.php");
 }
+function test() {
+       include(__DIR__ . "/views/test.php");
+}
+
 }

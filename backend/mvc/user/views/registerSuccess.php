@@ -17,7 +17,7 @@
     <p>Please login afterwards.</p>
     <script>
         setTimeout(function() {
-            window.location.href = '/webapp/app.php?service=showLayout#'; // Redirect to a test page -----> CHANGE !!!!
+            window.location.href = '/webapp/app.php?service=defaultPage'; // Redirect to a test page -----> CHANGE !!!!
         }, 7000); // Redirect after 3 seconds
     </script>
 </body>

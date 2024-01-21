@@ -1,3 +1,23 @@
+<?php
+
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Check if we've just logged in and need to refresh the page once
+    if (isset($_GET['loginSuccess']) && $_GET['loginSuccess'] && !isset($_SESSION['has_refreshed'])) {
+        $_SESSION['has_refreshed'] = true;
+        // Output a JavaScript command to refresh the page without the query parameter
+        echo '<script>window.location.href = window.location.pathname + window.location.search.replace(/(\?|&)loginSuccess=true/, "");</script>';
+        exit;
+    }
+
+    // Check if the page has been refreshed, then unset the flag to prevent further refreshes
+    if (isset($_SESSION['has_refreshed'])) {
+        unset($_SESSION['has_refreshed']);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,5 +33,9 @@
         <h1>Adrenaline Adventures</h1>
         <p>"Thrills Beyond Limits: Explore the Extreme with Adrenaline Adventures</p>
     </div>
+
+    <script>
+        
+    </script>
 </body>
 </html>

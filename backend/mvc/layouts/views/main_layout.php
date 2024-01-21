@@ -1,3 +1,22 @@
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Check if we've just logged in and need to refresh the page once
+    if (isset($_GET['loginSuccess']) && $_GET['loginSuccess'] && !isset($_SESSION['has_refreshed'])) {
+        $_SESSION['has_refreshed'] = true;
+        // Output a JavaScript command to refresh the page without the query parameter
+        echo '<script>window.location.href = window.location.pathname + window.location.search.replace(/(\?|&)loginSuccess=true/, "");</script>';
+        exit;
+    }
+
+    // Check if the page has been refreshed, then unset the flag to prevent further refreshes
+    if (isset($_SESSION['has_refreshed'])) {
+        unset($_SESSION['has_refreshed']);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +38,14 @@
     <div class="top-nav">
     
         <a href="#" id="home"  onclick="loadContent(this);"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#" id="signIn"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
-        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
+
+        <?php if (!isset($_SESSION['id'])): ?>
+            <a href="#" id="signIn" onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
+            <?php else: ?>
+                <a href="./app.php?service=logout" id="logout"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a>
+            <?php endif; ?>
+
+        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
     </div>
 </div>
 
@@ -47,8 +72,6 @@
         </div>
         
         
-        
-        
         <a href="#" id="about" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-info-circle"></span>About us</a>
         <a href="#" id="contact" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-address-book"></span>Contact us</a>
         <a href="#" id="people" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-user"></span>DEBUG DB</a>
@@ -59,8 +82,8 @@
     </div>
 </div>
 
-
 <script>
+
     function changeSideNavVisibility() {
         var sideNav = document.getElementById("mySidenav");
         if (sideNav.classList.contains("side-nav-visible")) {
@@ -91,13 +114,16 @@
 
         switch(pageId) {
 
-            
-            case "signUp":
+            case "signIn":
                 viewAreaElement.setAttribute("data", "./app.php?service=loginUser");
                 break;
-            case "signIn":
+            case "signUp":
                 viewAreaElement.setAttribute("data", "./app.php?service=registerUser");
                 break;
+            case "logout":
+                viewAreaElement.setAttribute("data", "./app.php?service=logout");
+                window.location.reload();
+                break;    
             case "showServices":
                 viewAreaElement.setAttribute("data", "./app.php?service=showServices");
                 break;
@@ -118,6 +144,7 @@
                 break;
         }
     }
+
 
     // Carregar conteúdo da página 'Home' por padrão
     window.onload = function() {
@@ -151,6 +178,7 @@ function toggleWalletDropdown() {
         walletCaret.classList.add("fa-caret-up");
     }
 }
+
 </script>
 
 </body>

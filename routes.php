@@ -97,10 +97,6 @@ Route::route("profileSuccess", function() {
     (new backend\mvc\user\UserController())->profileSuccess();
 });
 
-/*Route::route("updateProfile", function(){  //http://localhost/webapp/app.php?service=updateProfile
-    (new backend\mvc\user\UserController())->updateProfile();
-}); */
-
 
 
 // ---------------------------------- Services -------------------------------------------
