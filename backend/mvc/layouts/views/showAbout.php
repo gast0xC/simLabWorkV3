@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Extreme Tourism Agency</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Substitua com o caminho do seu arquivo CSS, se aplicável -->
+    <title>About Us - Adrenaline Adventures</title>
+    <link rel="stylesheet" href="./backend/mvc/layouts/views/aboutStyles.css"> <!-- Substitua com o caminho do seu arquivo CSS, se aplicável -->
 </head>
 <body>
     <header>
-        <h1>About Us - Extreme Tourism Agency</h1>
+        <h1>About Us - Adrenaline Adventures</h1>
     </header>
 
     <section class="about">
         <h2>Our Story</h2>
-        <p>Welcome to Extreme Tourism Agency, where adventure knows no bounds!</p>
+        <p>Welcome to Adrenaline Adventures, where adventure knows no bounds!</p>
         <p>Our journey began in the early 2000s when a group of passionate adventurers decided to share their love for extreme sports and outdoor exploration with the world. We started as a small team with a big dream - to offer adrenaline-pumping experiences in some of the most breathtaking and challenging locations on the planet.</p>
         <p>Over the years, we've grown into a leading name in the world of extreme tourism, offering a wide range of thrilling activities, from mountain climbing and white-water rafting to skydiving and shark cage diving. Our experienced guides and instructors ensure your safety while delivering the ultimate adventure.</p>
         <p>We take pride in our commitment to responsible tourism and conservation efforts. Our eco-friendly initiatives and support for local communities reflect our dedication to preserving the natural wonders that make our adventures possible.</p>
-        <p>Join us in the pursuit of excitement, exploration, and unforgettable memories. Whether you're a seasoned adrenaline junkie or a first-time thrill-seeker, there's an adventure waiting for you at Extreme Tourism Agency!</p>
+        <p>Join us in the pursuit of excitement, exploration, and unforgettable memories. Whether you're a seasoned adrenaline junkie or a first-time thrill-seeker, there's an adventure waiting for you at Adrenaline Adventures!</p>
     </section>
 
     <section class="objective">
         <h2>Our Objective</h2>
-        <p>At Extreme Tourism Agency, our primary objective is to provide our clients with the most exhilarating and memorable adventures of their lives. We strive to:</p>
+        <p>At Adrenaline Adventures, our primary objective is to provide our clients with the most exhilarating and memorable adventures of their lives. We strive to:</p>
         <ul>
             <li>Push the boundaries of adventure travel by offering unique and challenging experiences.</li>
             <li>Ensure the safety and well-being of our clients through rigorous training and top-notch equipment.</li>
@@ -34,7 +34,7 @@
     </section>
 
     <footer>
-        <p>&copy; <?php echo date("Y"); ?> Extreme Tourism Agency. All rights reserved.</p>
+        <p>&copy; <?php echo date("Y"); ?> Adrenaline Adventures. All rights reserved.</p>
     </footer>
 </body>
 </html>

@@ -19,8 +19,8 @@
     <div class="top-nav">
     
         <a href="#" id="home"  onclick="loadContent(this);"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#" id="signIn"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
-        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
+        <a href="#" id="signIn"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
+        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
     </div>
 </div>
 

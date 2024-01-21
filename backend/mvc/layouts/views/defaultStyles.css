@@ -1,0 +1,94 @@
+body.error-page {
+    font-family: 'Roboto', sans-serif;
+    background-image: linear-gradient(120deg, #005f6b, #008c8c, #00bfa5); /* Tons de azul e verde mais escuros */
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite, ripple 20s infinite linear;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    overflow: hidden;
+    transition: background-size 0.5s ease;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    33% { background-position: 100% 50%; }
+    66% { background-position: 50% 100%; }
+}
+
+@keyframes ripple {
+    0% { background-size: 300% 300%; }
+    50% { background-size: 350% 350%; }
+    100% { background-size: 300% 300%; }
+}
+
+.error-container h1 {
+    font-size: 5em;
+    background-image: linear-gradient(45deg, #ffffff, #ffd700); /* Gradiente de branco para dourado, para maior contraste */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbowTextAnimation 8s ease-in-out infinite, shake 0.5s infinite;
+}
+
+@keyframes rainbowTextAnimation {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: white; }
+}
+
+.error-container h1:hover {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.error-container p {
+    font-size: 2em;
+    color: #ffffff; /* Mudança para branco para melhor legibilidade */
+    animation: float 3s ease-in-out infinite, pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+.error-container p:hover {
+    color: #ffcc00;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    body.error-page {
+        background-size: 200% 200%;
+    }
+
+    .error-container h1 {
+        font-size: 3em; /* Ajustado para tamanhos de tela menores */
+    }
+
+    .error-container p {
+        font-size: 1.5em; /* Ajustado para tamanhos de tela menores */
+    }
+}
