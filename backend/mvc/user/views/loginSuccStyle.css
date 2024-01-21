@@ -1,0 +1,74 @@
+/* Reset básico para garantir consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: linear-gradient(120deg, #00695c, #26a69a, #ffca28, #00695c); /* Gradiente com tons de verde do mar e amarelo do sol */
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
+    color: white;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    color: #fff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra de texto para melhor legibilidade */
+    animation: fadeInDown 2s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+p {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: #fff;
+    animation: fadeInUp 2s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para indicar que o usuário será redirecionado */
+p:nth-of-type(2) {
+    font-size: 1em;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+}
