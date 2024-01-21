@@ -38,6 +38,7 @@
 <head>
     <title>User Profile</title>
     <!-- Add styles and scripts if needed -->
+    <link rel="stylesheet" href="./backend/mvc/user/views/profileStyles.css">
 </head>
 <body>
 
