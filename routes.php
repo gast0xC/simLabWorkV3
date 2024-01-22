@@ -135,6 +135,11 @@ Route::route("deleteService", function(){
 });
 
 
+Route::route("buyService", function(){    
+    (new backend\mvc\service\ServiceController())->buyService(@$_REQUEST['id']);  
+});
+
+
 Route::route("bestDeals", function(){    
     (new backend\mvc\service\ServiceController())->bestDeals();  
 });

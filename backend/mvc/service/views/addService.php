@@ -11,7 +11,8 @@
     <script src="public/responsivity/responsivity.js"></script>
 </head>
 
-<body style="left:100px; top:100px; width:70%; padding:50px; background-color:gray">
+<body style="left:100px; top:100px; width:70%; padding:50px; background-color: darkcyan;">
+
     <label id="msgStatus" style="margin-bottom:5px; padding:5px; background-color:burlywood; display:none;"></label>
     <form id="form" style="padding:50px; background-color:darkcyan">
         <!-- Add appropriate fields for service -->
@@ -72,7 +73,7 @@
                 setFormEditable(false);
                 document.getElementById('button').innerText = "Go back";
                 document.getElementById('button').onclick = function() {
-                    window.location.href = "app.php?service=showServicesAsTable";
+                    window.location.href = "app.php?service=showServices";
                 };
                 break;
             case "UPDATE":
@@ -88,9 +89,16 @@
                 id = urlParams.get('id');
                 document.getElementById('button').onclick = function() { deleteService(id); };
                 break;
-        }
+            case "BUY":
+                setFormEditable(false);  // Assuming you want the form to be non-editable for buying
+                document.getElementById('button').innerText = "Buy";
+                document.getElementById('button').style.backgroundColor = "green";
+                id = urlParams.get('id');
+                document.getElementById('button').onclick = function() { buyService(id); };
+                break;
+    }
 
-        if (["UPDATE", "SEE", "DELETE"].includes(mode)) {
+        if (["UPDATE", "SEE", "DELETE", "BUY"].includes(mode)) {
             id = urlParams.get('id');
             fetchService(id);
         }
@@ -132,8 +140,8 @@ function fetchService(id) {
         function success(result) {
             const requestResult = JSON.parse(result);
             if (requestResult.result == requestResult.resultTypes.SUCCESS) {
-                document.getElementById("msgStatus").innerHTML = "Fetched service with id = " + requestResult.data[0].id;
-                document.getElementById("msgStatus").style.display = "block";
+               // document.getElementById("msgStatus").innerHTML = "Fetched service with id = " + requestResult.data[0].id;
+               // document.getElementById("msgStatus").style.display = "block";
                 Object.keys(requestResult.data[0]).forEach(key => {
                     if (document.getElementById(key)) {
                         document.getElementById(key).value = requestResult.data[0][key];
@@ -198,6 +206,19 @@ function deleteService(id) {
             document.getElementById("msgStatus").style.display = "block";
         });
 }
+function buyService(id) {
+    // AJAX call to server-side script for buying a service
+    ajax_post_request("app.php?service=buyService&id=" + id, "", function(result) {
+        const response = JSON.parse(result);
+        if (response.result == response.resultTypes.SUCCESS) {
+            alert("Service purchased successfully!");
+            // Redirect or update UI as needed
+        } else {
+            alert("Failed to purchase service: " + response.msg);
+        }
+    });
+}
+
 
 
     function displayStatus(message) {

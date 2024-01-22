@@ -200,7 +200,8 @@ require_once 'backend/library/auth_aux.php';
   }
 
   function buyService(id) {
-    // Implementation of buyService functionality
+    window.location.href = `app.php?service=addService&id=${id}&MODE=BUY`;
+    
     console.log("Buy service with ID:", id);
     // For example, redirect to a purchase page
     // window.location.href = `app.php?service=buyService&id=${id}`;

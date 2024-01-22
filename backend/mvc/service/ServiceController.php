@@ -140,7 +140,14 @@ activity*/
         $serviceModel = new ServiceModel();
         $serviceModel->delete($id)->toJsonEcho();
     }
-
+    function buyService($id) {
+        $serviceModel = new ServiceModel();
+        $result = $serviceModel->buyService($id);
+        $result->toJsonEcho();
+    }
+    
+    
+    
     // Additional functions as per your application's requirements
 }
 ?>

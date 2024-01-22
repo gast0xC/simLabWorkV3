@@ -2,12 +2,14 @@
 
 namespace backend\mvc\service;
 
+
+use backend\mvc\service\ServiceModel;
 use backend\library\Model;
 use backend\library\RequestOperation;
 use backend\library\RequestResult;
 use PDO;
 use Exception;
-
+use backend\mvc\user\UserModel;
 class ServiceModel extends Model
 {
     function selectAll($id = null, $name = null): RequestResult {
@@ -60,9 +62,54 @@ class ServiceModel extends Model
         }
     }
     
+    function buyService($id = null): RequestResult {
+        try {
+            // Establish database connection
+            $pdo = $this->getPdoConnection();
+    
+            // Fetch the service price
+            $query_string = "SELECT price FROM service WHERE id = :id";
+            $statement = $pdo->prepare($query_string);
+            $statement->execute(['id' => $id]);
+            $service = $statement->fetch(PDO::FETCH_ASSOC);
+        
+            if (!$service) {
+                error_log("Service with ID $id not found."); // Log for debugging
+                return RequestResult::requestERROR(RequestOperation::SELECT, "Service not found");
+            }
+    
+            $servicePrice = $service['price'];
+    
+            // Fetch user's current balance
+            $userModel = new UserModel();
+            $userData = $userModel->selectUserByName($_SESSION['name']);
+            if ($userData->result !== RequestOperation::SUCCESS->value) {
+                return RequestResult::requestERROR(RequestOperation::SELECT, "User not found");
+            }
+    
+            $userMoney = $userData->data['money'];
+    
+            // Check if the user has enough money
+            if ($userMoney >= $servicePrice) {
+                $newBalance = $userMoney - $servicePrice;
+    
+                // Update the user's balance
+                $updateQueryString = "UPDATE user SET money = :money WHERE name = :name";
+                $updateStatement = $pdo->prepare($updateQueryString);
+                $updateStatement->execute(['money' => $newBalance, 'name' => $_SESSION['name']]);
+    
+                // Pass the PDOStatement object as the third argument
+                return RequestResult::requestSUCCESS(RequestOperation::UPDATE, $pdo, $updateStatement, "Service purchased successfully");
+            } else {
+                return RequestResult::requestERROR(RequestOperation::UPDATE, "Insufficient funds");
+            }
+    
+        } catch (Exception $e) {
+            return RequestResult::requestERROR(RequestOperation::SELECT, "Error: " . $e->getMessage());
+        }
+    }
     
     
-
     
     
 
