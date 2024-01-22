@@ -2,13 +2,12 @@
 
 namespace backend\mvc\service;
 
-use \backend\library\Controller;
-use \backend\library\RequestOperation;
-use \backend\library\RequestResult;
+use backend\library\Controller;
+use backend\library\RequestOperation;
+use backend\library\RequestResult;
 
-use \backend\mvc\person\PersonModel;
-use \Exception;
-
+use backend\mvc\service\ServiceModel;
+use Exception;
 
 class ServiceController extends Controller
 {
@@ -17,118 +16,131 @@ class ServiceController extends Controller
         // Constructor code here
     }
 
-    function addService()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            // Display the registration form
-            include(__DIR__ . '/views/addService.php');
-        }
-        // Perform some validation, like checking for empty fields or invalid values
-        $msgError = "Error:";
-        $hasError = false;
-    
-        $name = @$_REQUEST["name"];
-        $description = @$_REQUEST["description"];
-        $local = @$_REQUEST["local"];
-        $price = @$_REQUEST["price"];
-        $activity = @$_REQUEST["activity"];
-    
-        if (empty($name)) {
-            $msgError .= ' Name not provided.';
-            $hasError = true;
-        }
-        if (empty($description)) {
-            $msgError .= ' Description not provided.';
-            $hasError = true;
-        }
-        if (empty($local)) {
-            $msgError .= ' Local not provided.';
-            $hasError = true;
-        }
-        if (empty($price)) {
-            $msgError .= ' Price not provided.';
-            $hasError = true;
-        } elseif (!is_numeric($price)) {
-            $msgError .= ' Price must be a number.';
-            $hasError = true;
-        }
-        if (empty($activity)) {
-            $msgError .= ' Activity not provided.';
-            $hasError = true;
-        }
-    
-        if (!$hasError) {
-            // If all fields are valid, proceed to insert the service
-            $serviceData = [
-                "name" => $name,
-                "description" => $description,
-                "local" => $local,
-                "price" => $price,
-                "activity" => $activity
-            ];
-    
-            $insertResult = $this->serviceModel->createService($serviceData);
-            if ($insertResult) {
-                // Handle successful insertion, such as redirecting to a success page
-                header('Location: /path/to/success/page');
-                exit();
-            } else {
-                // Handle insertion failure
-                RequestResult::requestERROR(RequestOperation::INSERT, "Failed to add service.")->toJsonEcho();
-            }
-        } else {
-            // If there are validation errors
-            RequestResult::requestERROR(RequestOperation::INSERT, $msgError)->toJsonEcho();
-        }
-    }
-    
+// Function to select all services or filter by certain criteria
+function selectAll()
+{
+    $serviceModel = new ServiceModel();
 
-    function editService($id)
-    {
-        // Prepare the service data from the request
-        $serviceData = array(
-            "id"          => $id,
-            "name"        => @$_REQUEST["name"],
-            "description" => @$_REQUEST["description"],
-            "local"       => @$_REQUEST["local"],
-            "price"       => @$_REQUEST["price"],
-            "activity"    => @$_REQUEST["activity"]
-        );
-    
-        // Validation can be added here if necessary
-    
-        // Create an instance of the ServiceModel
-        $serviceModel = new ServiceModel();
-    
-        // Call the update method on the service model
-        $updateResult = $serviceModel->updateService($serviceData["id"], $serviceData);
-    
-        // Output the result as JSON
-        $updateResult->toJsonEcho();
-    }
-    
+    // If you plan to use filters, ensure these are correctly implemented.
+    // Assuming you want to filter by id and name, the parameters should be correctly obtained from $_REQUEST
+    $id   = @$_REQUEST["id"];
+    $name = @$_REQUEST["name"];  
 
-    function listServices()
-    {
-        // Code to display a list of services
-    }
+    // Call selectAll with appropriate parameters
+    // Modify ServiceModel->selectAll method accordingly if it expects these parameters
+    $serviceModel->selectAll($id, $name)->toJsonEcho();
+}
 
-    function deleteService($id)
-    {
-        // Create an instance of the ServiceModel
-        $serviceModel = new ServiceModel();
-    
-        // Call the delete method on the service model
-        $deleteResult = $serviceModel->deleteService($id);
-    
-        // Output the result as JSON
-        $deleteResult->toJsonEcho();
-    }
-    
-    function showServices() {
+function selectBestDeals()
+{
+    $serviceModel = new ServiceModel();
+
+    $serviceModel->selectBestDeals()->toJsonEcho();
+}   // Function to select a service by ID
+
+function searchByActivity($activity) {
+    $serviceModel = new ServiceModel();
+    $serviceModel->searchByActivity($activity)->toJsonEcho();
+}
+
+
+    // Function to show services in a table
+    function showServicesAsTable() {
         $folder = __NAMESPACE__;
         include("./$folder/Views/showServices.php");
     }
-    // Additional methods as needed
+
+    
+    function lookingFor() {
+        $folder = __NAMESPACE__;
+        include("./$folder/Views/lookingServices.php");
+    }
+    
+    
+    function bestDeals() {
+        $folder = __NAMESPACE__;
+        include("./$folder/Views/bestDeals.php");
+    }
+
+    // Function to insert a service from a view
+    function insertFromView() {
+        $msgError = "Error:";
+        $hasError = false;
+        if(empty( @$_REQUEST["name"]) ) {
+            $msgError .= ' name not provided.';
+            $hasError  = true;
+        } else if(empty( @$_REQUEST["description"]) ) {
+            $msgError .= ' description not provided.';
+            $hasError  = true;
+        } else if(empty( @$_REQUEST["local"]) ) {
+            $msgError .= ' local not provided.';
+            $hasError  = true;
+        }else if(empty( @$_REQUEST["price"]) ) {
+            $msgError .= ' price not provided.';
+            $hasError  = true;
+        }else if(empty( @$_REQUEST["activity"]) ) {
+            $msgError .= ' activity not provided.';
+            $hasError  = true;
+        }
+
+        if(!$hasError) {
+            $this->insert();
+        } else {
+            RequestResult::requestERROR(RequestOperation::INSERT, $msgError)->toJsonEcho();
+        }
+    }
+/*name
+description
+local
+price
+activity*/
+    // Function to insert a service
+    function insert() {
+        $requestData = [
+            "name"       => @$_REQUEST["name"],
+            "description"    => @$_REQUEST["description"],
+            "local"       => @$_REQUEST["local"],
+            "price" => @$_REQUEST["price"],
+            "activity" => @$_REQUEST["activity"] 
+        ];
+        $serviceModel = new ServiceModel();
+        $serviceModel->insert($requestData)->toJsonEcho();
+    }
+
+    // Function to show service form
+    function showServiceForm($mode, $id) {
+        $_GET['MODE']=$mode;
+        $_GET['id']  = $id;
+        $folder = __NAMESPACE__;
+        include("./$folder/views/addService.php"); //MODE: INSERT, UPDATE, SEE
+    }
+
+    // Function to select a service by ID
+    function select($id) {
+        $serviceModel = new ServiceModel();
+        $serviceModel->select($id)->toJsonEcho();
+    }
+
+    // Function to update a service
+    function update() {
+        $requestData = [
+            "name"       => @$_REQUEST["name"],
+            "id"       => @$_REQUEST["id"],
+            "description"    => @$_REQUEST["description"],
+            "local"       => @$_REQUEST["local"],
+            "price" => @$_REQUEST["price"],
+            "activity" => @$_REQUEST["activity"] 
+        ];
+        $serviceModel = new ServiceModel();
+        $serviceModel->update($requestData)->toJsonEcho();
+    }
+
+    // Function to delete a service
+    function delete($id) {
+        $serviceModel = new ServiceModel();
+        $serviceModel->delete($id)->toJsonEcho();
+    }
+
+    // Additional functions as per your application's requirements
 }
 ?>

@@ -58,12 +58,13 @@
   ajax_post_request("app.php?service=selectAllServices", "", function(result) {
     const services = JSON.parse(result);
     var table = document.getElementById("tableServices");
-
+    
     if (services.result == services.resultTypes.SUCCESS) {
       services.data.forEach((service) => {
         var row = table.insertRow();
         row.insertCell().innerHTML = service.id;
         row.insertCell().innerHTML = service.name;
+        
         row.insertCell().innerHTML = service.description;
         row.insertCell().innerHTML = service.local;
         row.insertCell().innerHTML = service.price;

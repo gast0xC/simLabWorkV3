@@ -75,9 +75,48 @@ Route::route("updateUser", function(){
 
 
 Route::route("showServices", function(){  //http://localhost/webapp/app.php?service=showServices
-    (new backend\mvc\service\ServiceController())->showServices();
+    (new backend\mvc\service\ServiceController())->showServicesAsTable();
 });
 
 Route::route("addService", function(){  //http://localhost/webapp/app.php?service=addService
-    (new backend\mvc\service\ServiceController())->addService();
+    (new backend\mvc\service\ServiceController())->showServiceForm( @$_REQUEST["MODE"], @$_REQUEST["id"]);
+});
+
+
+
+Route::route("selectAllServices", function(){ 
+    (new backend\mvc\service\ServiceController())->selectAll();
+});
+
+Route::route("insertServiceFromView", function(){  
+    (new backend\mvc\service\ServiceController())->insertFromView();
+});
+
+
+Route::route("selectService", function(){    
+    (new backend\mvc\service\ServiceController())->select(@$_REQUEST['id']);
+});
+
+Route::route("updateService", function(){    
+    (new backend\mvc\service\ServiceController())->update(); 
+});
+
+Route::route("deleteService", function(){    
+    (new backend\mvc\service\ServiceController())->delete(@$_REQUEST['id']);  
+});
+
+
+Route::route("bestDeals", function(){    
+    (new backend\mvc\service\ServiceController())->bestDeals();  
+});
+
+Route::route("selectBestDeals", function(){    
+    (new backend\mvc\service\ServiceController())->selectBestDeals();  
+});
+
+Route::route("searchByActivity", function(){    
+    (new backend\mvc\service\ServiceController())->searchByActivity(@$_REQUEST['activity']);  
+});
+Route::route("lookingFor", function(){    
+    (new backend\mvc\service\ServiceController())->lookingFor();  
 });

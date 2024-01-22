@@ -101,6 +101,12 @@
             case "showServices":
                 viewAreaElement.setAttribute("data", "./app.php?service=showServices");
                 break;
+            case "bestDeals":
+                viewAreaElement.setAttribute("data", "./app.php?service=bestDeals");
+                break;
+            case "lookingFor":
+                viewAreaElement.setAttribute("data", "./app.php?service=lookingFor");
+                break;
             case "home":
                 viewAreaElement.setAttribute("data", "./app.php?service=defaultPage");
                 break;
