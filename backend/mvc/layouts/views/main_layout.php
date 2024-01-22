@@ -60,18 +60,15 @@
             </div>
         </div>
 
-        <div class="submenu">
-            <a href="#" id="wallet" class="menu-item" onclick="toggleWalletDropdown();"> <span class="fa fa-fw fa-credit-card"></span>Wallet <span class="fa fa-fw fa-caret-down" id="walletCaret"></span></a>
-            <div class="dropdown-content" id="walletDropdown" style="display: none;">
-                <a href="#" id="makePurchase" onclick="loadContent(this);">Make Purchase</a>
-                <a href="#" id="history" onclick="loadContent(this);">History</a>
-            </div>
-        </div>
-        
+
         
         <a href="#" id="about" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-info-circle"></span>About us</a>
         <a href="#" id="contact" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-address-book"></span>Contact us</a>
-        <a href="#" id="people" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-user"></span>DEBUG DB</a>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="#" id="people" class="menu-item" onclick="loadContent(this);"> 
+                <span class="fa fa-fw fa-user"></span> DEBUG DB
+            </a>
+        <?php endif; ?>
     </div>
 
     <div class="view-area" id="view-area">

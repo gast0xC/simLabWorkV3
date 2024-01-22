@@ -22,6 +22,7 @@ require_once 'backend/library/auth_aux.php';
             transition: background-color 0.5s ease;
         }
 
+
         h1 {
             color: #fff;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -84,20 +85,25 @@ require_once 'backend/library/auth_aux.php';
             background-color: #45a049;
         }
     </style>
-  <script>
+
+<script>
+
     <?php
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    // Set JavaScript variable based on PHP session role
+    // Set JavaScript variables based on PHP session role
     echo "var isUserAdmin = " . (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' ? 'true' : 'false') . ";";
+    echo "var isUserClient = " . (isset($_SESSION['role']) && $_SESSION['role'] === 'client' ? 'true' : 'false') . ";";
     ?>
-  </script>
+</script>
+
 
 </head>
 
 <body>
   <h1>Available Services</h1>
+
   <label id="msgStatus"></label>
   
  <div id="buttonContainer" style="margin:5px"></div>
@@ -132,7 +138,7 @@ require_once 'backend/library/auth_aux.php';
       }
     });
 
-  ajax_post_request("app.php?service=selectAllServices", "", function(result) {
+    ajax_post_request("app.php?service=selectAllServices", "", function(result) {
     const services = JSON.parse(result);
     var table = document.getElementById("tableServices");
 
@@ -145,29 +151,32 @@ require_once 'backend/library/auth_aux.php';
         row.insertCell().innerHTML = service.local;
         row.insertCell().innerHTML = service.price;
         row.insertCell().innerHTML = service.activity;
-        console.log("Document loaded. Admin status:", isUserAdmin);
-        // Append buttons only if the user is an admin
+
+        let actionsCell = row.insertCell();
+
+        // Create "See" button for all users
+        let btnSee = document.createElement("button");
+        btnSee.innerHTML = "See";
+        btnSee.onclick = function() { seeService(service.id); };
+        actionsCell.appendChild(btnSee);
+
         if (isUserAdmin) {
-          let btnSee = document.createElement("button");
-          btnSee.innerHTML = "See";
-          btnSee.onclick = function() { seeService(service.id); };
+          // Admin-specific buttons
           let btnUpdate = document.createElement("button");
           btnUpdate.innerHTML = "Update";
           btnUpdate.onclick = function() { updateService(service.id); };
           let btnDelete = document.createElement("button");
-          btnDelete.innerHTML = "Delete";    
+          btnDelete.innerHTML = "Delete";
           btnDelete.onclick = function() { deleteService(service.id); };
-
-          let actionsCell = row.insertCell();
-          actionsCell.appendChild(btnSee);
           actionsCell.appendChild(btnUpdate);
           actionsCell.appendChild(btnDelete);
+        } else if (isUserClient) {
+          // Client-specific "Buy" button
+          let btnBuy = document.createElement("button");
+          btnBuy.innerHTML = "Buy";
+          btnBuy.onclick = function() { buyService(service.id); };
+          actionsCell.appendChild(btnBuy);
         }
-
- 
-
-
-        
       });
     } else {
       document.getElementById("msgStatus").innerHTML = services.msg;
@@ -189,6 +198,14 @@ require_once 'backend/library/auth_aux.php';
   function deleteService(id) {
     window.location.href = `app.php?service=addService&id=${id}&MODE=DELETE`;
   }
+
+  function buyService(id) {
+    // Implementation of buyService functionality
+    console.log("Buy service with ID:", id);
+    // For example, redirect to a purchase page
+    // window.location.href = `app.php?service=buyService&id=${id}`;
+  }
+
 
 </script>
 
