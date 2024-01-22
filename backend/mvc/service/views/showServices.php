@@ -1,3 +1,8 @@
+<?php
+require_once 'backend/library/auth_aux.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,12 +37,24 @@
       background-color: lightyellow;
     }
   </style>
+  <script>
+    <?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    // Set JavaScript variable based on PHP session role
+    echo "var isUserAdmin = " . (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' ? 'true' : 'false') . ";";
+    ?>
+  </script>
+
 </head>
 
 <body>
   <h1>Services in the database</h1>
   <label id="msgStatus"></label>
-  <input type="button" value="Add Service" onclick="addService();" style="margin:5px">
+  
+ <div id="buttonContainer" style="margin:5px"></div>
+
   
   <table id="tableServices">
     <thead>
@@ -55,42 +72,55 @@
     </tbody>
   </table>
   <script>
+        document.addEventListener("DOMContentLoaded", function() {
+      if (isUserAdmin) {
+        var btnAddService = document.createElement("input");
+        btnAddService.type = "button";
+        btnAddService.value = "Add Service";
+        btnAddService.onclick = function() { addService(); };
+        btnAddService.style.margin = "5px";
+
+        var buttonContainer = document.getElementById("buttonContainer");
+        buttonContainer.appendChild(btnAddService);
+      }
+    });
+
   ajax_post_request("app.php?service=selectAllServices", "", function(result) {
     const services = JSON.parse(result);
     var table = document.getElementById("tableServices");
-    
+
     if (services.result == services.resultTypes.SUCCESS) {
       services.data.forEach((service) => {
         var row = table.insertRow();
         row.insertCell().innerHTML = service.id;
         row.insertCell().innerHTML = service.name;
-        
         row.insertCell().innerHTML = service.description;
         row.insertCell().innerHTML = service.local;
         row.insertCell().innerHTML = service.price;
         row.insertCell().innerHTML = service.activity;
+        console.log("Document loaded. Admin status:", isUserAdmin);
+        // Append buttons only if the user is an admin
+        if (isUserAdmin) {
+          let btnSee = document.createElement("button");
+          btnSee.innerHTML = "See";
+          btnSee.onclick = function() { seeService(service.id); };
+          let btnUpdate = document.createElement("button");
+          btnUpdate.innerHTML = "Update";
+          btnUpdate.onclick = function() { updateService(service.id); };
+          let btnDelete = document.createElement("button");
+          btnDelete.innerHTML = "Delete";    
+          btnDelete.onclick = function() { deleteService(service.id); };
 
-        let btnSee = document.createElement("button");
-        btnSee.innerHTML = "See";
-        btnSee.onclick = function() {
-          seeService(service.id)
-        };
-        let btnUpdate = document.createElement("button");
-        btnUpdate.innerHTML = "Update";
-        btnUpdate.onclick = function() {
-          updateService(service.id)
-        };
+          let actionsCell = row.insertCell();
+          actionsCell.appendChild(btnSee);
+          actionsCell.appendChild(btnUpdate);
+          actionsCell.appendChild(btnDelete);
+        }
 
-        let btnDelete = document.createElement("button");
-        btnDelete.innerHTML = "Delete";    
-        btnDelete.onclick = function() {
-          deleteService(service.id)
-        };
+ 
 
-        let actionsCell = row.insertCell();
-        actionsCell.appendChild(btnSee);
-        actionsCell.appendChild(btnUpdate);
-        actionsCell.appendChild(btnDelete);
+
+        
       });
     } else {
       document.getElementById("msgStatus").innerHTML = services.msg;
