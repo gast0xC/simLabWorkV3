@@ -107,27 +107,29 @@ class UserController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Display the login form
             include(__DIR__ . '/views/login.php');
-    
+
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process the login form submission
-            $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
-    
+
+            // Use trim() to remove whitespace from the beginning and end of a string
+            $name = trim($_POST["name"] ?? '');
+            $password = $_POST["password"] ?? '';
+
             if (!$name || !$password) {
                 echo "Username or Password not provided";
                 return;
             }
-    
+
             $userModel = new UserModel();
             $result = $userModel->authenticate($name, $password);
-    
+
             if ($result->result === RequestOperation::SUCCESS->value) {
                 session_start();
                 session_regenerate_id(true);
-    
+
                 // Retrieve user data from the UserModel
                 $userData = $userModel->selectUserByName($name);
-    
+
                 if ($userData->result === RequestOperation::SUCCESS->value && $userData->data) {
                     // Assign the user data to session variables
                     $_SESSION['id'] =   $userData->data['id'];
@@ -138,7 +140,7 @@ class UserController extends Controller
                     echo "Failed to retrieve user data";
                     return;
                 }
-    
+
                 // Redirect to the successful login page
                 header("Location: /webapp/app.php?service=loginSuccess");
                 exit();
@@ -147,6 +149,7 @@ class UserController extends Controller
             }
         }
     }
+
     
 
     function accessProfile () {

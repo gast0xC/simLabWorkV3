@@ -9,6 +9,7 @@ use backend\library\RequestResult;
 use backend\mvc\service\ServiceModel;
 use Exception;
 
+
 class ServiceController extends Controller
 {
     function __construct()
@@ -59,7 +60,7 @@ function searchByActivity($activity) {
     
     function bestDeals() {
         $folder = __NAMESPACE__;
-        include("./$folder/Views/bestDeals.php");
+        include("./$folder/views/bestDeals.php");
     }
 
     // Function to insert a service from a view
