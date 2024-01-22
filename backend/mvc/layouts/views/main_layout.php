@@ -1,3 +1,17 @@
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Check for the refresh parameter and refresh the page once
+    if (isset($_GET['refresh']) && $_GET['refresh'] == '1') {
+        // Use JavaScript to refresh the page without the query parameter
+        echo '<script>window.location.href = "/webapp/app.php?service=showLayout";</script>';
+        exit;
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +33,16 @@
     <div class="top-nav">
     
         <a href="#" id="home"  onclick="loadContent(this);"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#" id="signIn"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
-        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
+
+        <?php if (!isset($_SESSION['id'])): ?>
+            <a href="#" id="signIn" onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
+            <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
+            
+            <?php else: ?>
+                <a href="./app.php?service=logout" id="logout"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a>
+                <a href="#" id="profile" onclick="loadContent(this);"><span class="fa fa-fw fa-user-circle"></span> Profile</a>
+            <?php endif; ?>
+
     </div>
 </div>
 
@@ -47,8 +69,6 @@
         </div>
         
         
-        
-        
         <a href="#" id="about" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-info-circle"></span>About us</a>
         <a href="#" id="contact" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-address-book"></span>Contact us</a>
         <a href="#" id="people" class="menu-item" onclick="loadContent(this);"> <span class="fa fa-fw fa-user"></span>DEBUG DB</a>
@@ -59,8 +79,8 @@
     </div>
 </div>
 
-
 <script>
+
     function changeSideNavVisibility() {
         var sideNav = document.getElementById("mySidenav");
         if (sideNav.classList.contains("side-nav-visible")) {
@@ -91,13 +111,16 @@
 
         switch(pageId) {
 
-            
-            case "signUp":
+            case "signIn":
                 viewAreaElement.setAttribute("data", "./app.php?service=loginUser");
                 break;
-            case "signIn":
+            case "signUp":
                 viewAreaElement.setAttribute("data", "./app.php?service=registerUser");
                 break;
+            case "logout":
+                viewAreaElement.setAttribute("data", "./app.php?service=logout");
+                window.location.reload();
+                break;    
             case "showServices":
                 viewAreaElement.setAttribute("data", "./app.php?service=showServices");
                 break;
@@ -119,11 +142,15 @@
             case "people":
                 viewAreaElement.setAttribute("data", "./app.php?service=showPeopleAsTable");
                 break;
+            case "profile":
+                viewAreaElement.setAttribute("data", "./app.php?service=profile");
+                break;    
             default:
                 viewAreaElement.setAttribute("data", "");
                 break;
         }
     }
+
 
     // Carregar conteúdo da página 'Home' por padrão
     window.onload = function() {
@@ -157,6 +184,7 @@ function toggleWalletDropdown() {
         walletCaret.classList.add("fa-caret-up");
     }
 }
+
 </script>
 
 </body>

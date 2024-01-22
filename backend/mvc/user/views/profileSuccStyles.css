@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Reset básico para garantir consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: linear-gradient(45deg, #334d50, #cbcaa5, #769fcd, #334d50);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+h1, p {
+    position: absolute; /* Absolute positioning to control their exact location */
+    width: 100%; /* Ensures text is centered regardless of text length */
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    color: #fff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    top: 40vh; /* Start above the center */
+    opacity: 0; /* Start invisible */
+    animation: fadeInDown 1s ease-in-out forwards, moveDown 1s ease-in-out forwards;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+p {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: #fff;
+    top: 50vh; /* Start at the center */
+    opacity: 0; /* Start invisible */
+    animation: fadeInUp 2s ease-in-out 1.5s forwards; /* Starts after h1 animation */
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para indicar que o usuário será redirecionado */
+p:nth-of-type(1) {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo translúcido escuro para melhor legibilidade */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto; /* Center horizontally */
+    animation: pulse 2s infinite alternate 2.5s forwards; /* Starts after p animation */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}

@@ -27,14 +27,14 @@ class UserController extends Controller
 
             try {
                 // Perform validation on the request data
-                $username = trim(@$_REQUEST["name"]);
+                $name = trim(@$_REQUEST["name"]);
                 $password = @$_REQUEST["password"];
                 $role = @$_REQUEST["role"];
-                $mail = @$_REQUEST["mail"];
+                $email = @$_REQUEST["email"];
                 $telephone = @$_REQUEST["telephone"];
                 $money = @$_REQUEST["money"];
 
-                if (empty($username) || empty($password) || empty($mail) || empty($telephone) || empty($money)) {
+                if (empty($name) || empty($password) || empty($email) || empty($telephone) || empty($money)) {
                     throw new Exception("Username, password, email, phone number and money are all required.");
                 }
 
@@ -44,10 +44,10 @@ class UserController extends Controller
 
                 $userModel = new UserModel();
                 $userData = [
-                    "name" => $username,
+                    "name" => $name,
                     "password" => $password, // The UserModel  hashes this password
                     "role" => $role,
-                    "mail" => $mail,
+                    "email" => $email,
                     "telephone" => $telephone,
                     "money" => $money,
                 ];
@@ -65,9 +65,43 @@ class UserController extends Controller
 
     function registerSuccess()
     {
-        echo "Registration successful!";
+        include(__DIR__ . '/views/registerSuccess.php');
     }
 
+    function loginSuccess()
+    {
+        include(__DIR__ . '/views/loginSuccess.php');
+    }
+
+    function profileSuccess() {
+        include(__DIR__ . '/views/profileSuccess.php');
+    }
+
+    function logout() {
+        // Start the session
+        session_start();
+
+        // Unset all session variables
+        session_unset();
+    
+        // Destroy the session
+        session_destroy();
+    
+        // To kill the session cookie as well
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        
+        // Redirect to the home page
+        sleep(1);
+        header("Location: /webapp/app.php?service=showLayout");
+        exit();
+    }
+    
 
     function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -76,31 +110,87 @@ class UserController extends Controller
     
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process the login form submission
-            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+            $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
     
-            if (!$username || !$password) {
-                // Handle error - username or password not provided
-                echo "Username or Password not provided"; // Display error message
+            if (!$name || !$password) {
+                echo "Username or Password not provided";
                 return;
             }
     
             $userModel = new UserModel();
-            $result = $userModel->authenticate($username, $password);
+            $result = $userModel->authenticate($name, $password);
     
-            if ($result->getStatus() === RequestOperation::SUCCESS) {
-                // Authentication successful
+            if ($result->result === RequestOperation::SUCCESS->value) {
                 session_start();
-                $_SESSION['user'] = $result->getData(); // Assuming getData returns user data
+                session_regenerate_id(true);
     
-                //header("Location: defaultPage.php"); // Redirect to a default page
+                // Retrieve user data from the UserModel
+                $userData = $userModel->selectUserByName($name);
+    
+                if ($userData->result === RequestOperation::SUCCESS->value && $userData->data) {
+                    // Assign the user data to session variables
+                    $_SESSION['id'] =   $userData->data['id'];
+                    $_SESSION['name'] = $userData->data['name'];
+                    $_SESSION['role'] = $userData->data['role'];
+                } else {
+                    var_dump($userData);
+                    echo "Failed to retrieve user data";
+                    return;
+                }
+    
+                // Redirect to the successful login page
+                header("Location: /webapp/app.php?service=loginSuccess");
                 exit();
             } else {
-                // Authentication failed
                 echo "Invalid Username or Password"; // Display error message
             }
-        }//$result->toJsonEcho();
+        }
     }
+    
+
+    function accessProfile () {
+        
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['id'])) {
+            include(__DIR__ . '/views/login.php');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+            include(__DIR__ . '/views/profile.php');
+
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel = new UserModel();
+
+            // Sanitize and validate input
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null; // Only hash if a new password is provided
+            $money = filter_input(INPUT_POST, 'money', FILTER_SANITIZE_STRING); // Adjust sanitization according to your needs
+
+            $updateData = [
+                'email' => $email,
+                'password' => $password, // Make sure to handle the case where password is not changed
+                'money' => $money,
+                // Add other fields as necessary
+            ];
+
+            $result = $userModel->updateUserById($_SESSION['id'], $updateData);
+
+            if ($result->result === RequestOperation::SUCCESS->value) {
+                // Redirect to a confirmation page or show a success message
+                header('Location: /webapp/app.php?service=profileSuccess');
+            } else {
+                // Handle errors, e.g., show an error message
+                echo "An error occurred: " . $result->msg;
+            }
+        }
+    }
+
     function deleteUser($id)
     {
         $userModel = new UserModel();
@@ -123,5 +213,5 @@ class UserController extends Controller
         $result->toJsonEcho();
     }
 
-    // Other methods to be add later, like views and stuff
+
 }

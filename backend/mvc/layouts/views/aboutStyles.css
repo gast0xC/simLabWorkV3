@@ -1,0 +1,72 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e7eff6; /* Cor de fundo azul claro */
+    color: #333; /* Cor do texto */
+    line-height: 1.6;
+}
+
+/* Estiliza o cabeçalho */
+header {
+    background-color: #005f73; /* Cor de fundo do cabeçalho azul escuro */
+    color: #ffffff; /* Cor do texto do cabeçalho */
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Estiliza os títulos das seções */
+h2 {
+    color: #0a9396; /* Cor do título da seção turquesa */
+}
+
+/* Estiliza a seção 'about' */
+.about {
+    background-color: #94d2bd; /* Cor de fundo verde-água */
+    padding: 20px;
+    margin: 20px 0;
+}
+
+/* Estiliza a seção 'objective' */
+.objective {
+    background-color: #8fbc8f; /* Cor de fundo laranja */
+    padding: 20px;
+    margin: 20px 0;
+}
+
+/* Estiliza os itens da lista */
+ul {
+    list-style-type: none;
+}
+
+li:before {
+    content: "→ "; /* Adiciona um símbolo de seta antes de cada item da lista */
+    color: #ae2012; /* Cor da seta vermelho escuro */
+}
+
+/* Estiliza o rodapé */
+footer {
+    background-color: #005f73; /* Cor de fundo do rodapé azul escuro */
+    color: #ffffff; /* Cor do texto do rodapé */
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Adiciona estilos para links */
+a {
+    color: #ae2012; /* Cor dos links vermelho escuro */
+}
+
+/* Aplica estilos para responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 0 20px;
+    }
+
+    .about, .objective {
+        margin: 20px auto;
+    }
+}

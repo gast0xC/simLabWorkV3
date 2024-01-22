@@ -1,28 +1,35 @@
+<?php
+
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Check for the refresh parameter and refresh the page once
+    if (isset($_GET['refresh']) && $_GET['refresh'] == '1') {
+        // Use JavaScript to refresh the page without the query parameter
+        echo '<script>window.location.href = "/webapp/app.php?service=showLayout";</script>';
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error 404 - Page Not Found</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Substitua com o caminho do seu arquivo CSS, se aplicável -->
+    <title>Adrenaline Adventures</title>
+    <link rel="stylesheet" href="./backend/mvc/layouts/views/defaultStyles.css"> <!-- Substitua com o caminho do seu arquivo CSS, se aplicável -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <header>
-        <h1>Error 404 - Page Not Found</h1>
-    </header>
+<body class="error-page">
+    <div class="error-container">
+        <h1>Adrenaline Adventures</h1>
+        <p>"Thrills Beyond Limits: Explore the Extreme with Adrenaline Adventures</p>
+    </div>
 
-    <section class="about">
-        <h2>Error 404</h2>
-        <p>Error 404 - Page Not Found</p>
-    </section>
-
-    <section class="objective">
-        <h2>Error 404</h2>
-        <p>Error 404 - Page Not Found</p>
-    </section>
-
-    <footer>
-        <p>&copy; <?php echo date("Y"); ?> Error 404 - Page Not Found</p>
-    </footer>
+    <script>
+        
+    </script>
 </body>
 </html>
