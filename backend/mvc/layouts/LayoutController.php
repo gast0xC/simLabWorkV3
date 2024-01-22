@@ -5,23 +5,28 @@ use \backend\library\Controller;
 
 class MyLayoutController extends Controller
 {
-    function __construct()
-    {
+    function __construct() {
+
     }
+
     function showLayout() {
-           include(__DIR__ . "/views/main_layout.php");
+       if (isset($_GET['refresh']) && $_GET['refresh'] == '1') {
+              echo '<script>window.location.href = "/webapp/app.php?service=showLayout";</script>';
+              exit;
+       }
+       include(__DIR__ . "/views/main_layout.php");
     }
+
     function showAboutUs() {
        include(__DIR__ . "/views/showAbout.php");
-}
- function showContactUs() {
+    }
+
+    function showContactUs() {
        include(__DIR__ . "/views/showContact.php");
-}
-function showDefaultPage() {
+    }
+
+    function showDefaultPage() {
        include(__DIR__ . "/views/defaultPage.php");
-}
-function test() {
-       include(__DIR__ . "/views/test.php");
-}
+    }
 
 }

@@ -18,7 +18,7 @@
     <p>You will be redirected to your dashboard shortly.</p>
     <script>
         setTimeout(function() {
-        window.location.href = '/webapp/app.php?service=defaultPage#?loginSuccess=true';
+        window.location.href = '/webapp/app.php?service=defaultPage';
     }, 4000);
     </script>
 </body>

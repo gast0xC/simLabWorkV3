@@ -3,18 +3,13 @@
         session_start();
     }
 
-    // Check if we've just logged in and need to refresh the page once
-    if (isset($_GET['loginSuccess']) && $_GET['loginSuccess'] && !isset($_SESSION['has_refreshed'])) {
-        $_SESSION['has_refreshed'] = true;
-        // Output a JavaScript command to refresh the page without the query parameter
-        echo '<script>window.location.href = window.location.pathname + window.location.search.replace(/(\?|&)loginSuccess=true/, "");</script>';
+    // Check for the refresh parameter and refresh the page once
+    if (isset($_GET['refresh']) && $_GET['refresh'] == '1') {
+        // Use JavaScript to refresh the page without the query parameter
+        echo '<script>window.location.href = "/webapp/app.php?service=showLayout";</script>';
         exit;
     }
 
-    // Check if the page has been refreshed, then unset the flag to prevent further refreshes
-    if (isset($_SESSION['has_refreshed'])) {
-        unset($_SESSION['has_refreshed']);
-    }
 ?>
 
 <!DOCTYPE html>
@@ -41,11 +36,13 @@
 
         <?php if (!isset($_SESSION['id'])): ?>
             <a href="#" id="signIn" onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign In</a>
+            <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
+            
             <?php else: ?>
                 <a href="./app.php?service=logout" id="logout"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a>
+                <a href="#" id="profile" onclick="loadContent(this);"><span class="fa fa-fw fa-user-circle"></span> Profile</a>
             <?php endif; ?>
 
-        <a href="#" id="signUp"  onclick="loadContent(this);"><span class="fa fa-fw fa-user"></span> Sign Up</a>
     </div>
 </div>
 
@@ -139,6 +136,9 @@
             case "people":
                 viewAreaElement.setAttribute("data", "./app.php?service=showPeopleAsTable");
                 break;
+            case "profile":
+                viewAreaElement.setAttribute("data", "./app.php?service=profile");
+                break;    
             default:
                 viewAreaElement.setAttribute("data", "");
                 break;
