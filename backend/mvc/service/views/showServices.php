@@ -13,30 +13,77 @@ require_once 'backend/library/auth_aux.php';
   <title>Services</title>
   <script src="public/responsivity/responsivity.js"></script>
   <style>
-    body {
-      position: absolute;
-      left: 50px;
-      top: 10px;
-      width: 70%
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      background-color: lightgrey;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid green;
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: linear-gradient(120deg, #3a1c71, #d76d77, #ffaf7b);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.5s ease;
+        }
 
-    tr:hover {
-      background-color: coral;
-    }
-    tr:nth-child(1):hover{
-      background-color: lightyellow;
-    }
-  </style>
+        h1 {
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff; /* Background color for the table */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for the table */
+            border-radius: 8px; /* Rounded corners for the table */
+            overflow: hidden; /* Ensures the border-radius clips the content */
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        th {
+            background-color: #00796b;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        tr:nth-child(1):hover{
+            background-color: lightyellow;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-right: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #buttonContainer input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #buttonContainer input[type="button"]:hover {
+            background-color: #45a049;
+        }
+    </style>
   <script>
     <?php
     if (session_status() == PHP_SESSION_NONE) {
@@ -50,7 +97,7 @@ require_once 'backend/library/auth_aux.php';
 </head>
 
 <body>
-  <h1>Services in the database</h1>
+  <h1>Available Services</h1>
   <label id="msgStatus"></label>
   
  <div id="buttonContainer" style="margin:5px"></div>
@@ -59,7 +106,7 @@ require_once 'backend/library/auth_aux.php';
   <table id="tableServices">
     <thead>
       <tr>
-        <th>Id</th>
+        
         <th>Name</th>
         <th>Description</th>
         <th>Local</th>
@@ -92,7 +139,7 @@ require_once 'backend/library/auth_aux.php';
     if (services.result == services.resultTypes.SUCCESS) {
       services.data.forEach((service) => {
         var row = table.insertRow();
-        row.insertCell().innerHTML = service.id;
+        
         row.insertCell().innerHTML = service.name;
         row.insertCell().innerHTML = service.description;
         row.insertCell().innerHTML = service.local;
